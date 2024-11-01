@@ -1,0 +1,40 @@
+services:
+    app:
+        build:
+            context: .
+            args:
+                uid: ${UID}
+                username: ${USERNAME}
+        restart: unless-stopped
+        ports:
+            - 8080:80
+        environment:
+            - APACHE_RUN_USER=#${UID}
+            - APACHE_RUN_GROUP=#${UID}
+        volumes:
+            - ./app:/var/www/html
+            - .:/home/${USERNAME}/project
+    mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        ports:
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d:ro
+            - ./conf:/etc/mysql/conf.d:ro
+            - persistent:/var/lib/mysql
+    phpmyadmin:
+        image: phpmyadmin
+        restart: unless-stopped
+        ports:
+            - 8081:80
+        environment:
+            - PMA_HOST=mysql
+volumes:
+    persistent:
