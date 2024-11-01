@@ -1,4 +1,15 @@
 {
     "name": "root/app",
-    "require": {}
+    "authors": [
+        {
+            "name": "Przemysław Sulecki",
+            "email": "psugrg@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    }
 }
