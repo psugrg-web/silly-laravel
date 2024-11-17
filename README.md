@@ -4,10 +4,12 @@ Very basic approach that's primarily designed to act as a snippet for simple dev
 
 ## Usage
 
+### Create Docker image
+
 > [!IMPORTANT]
 >
 > - Create `.env` file with configuration in the `./app` directory. You can use `.env.example` file as a starting point. Just use `cp .env.example .env`.
-> - Create and export *MySql* root password by calling `export DB_ROOT_PASSWORD=root-password` **use your own password here!**.
+> - Create and export *MySql* root password by calling `export DB_ROOT_PASSWORD=root-password` **use your own password here!**
 > - Export `UID` to expose the user id as an environment variable by calling `export UID=${UID}`[^1].
 
 Run the following command to compile and run the complete suite
@@ -16,7 +18,7 @@ Run the following command to compile and run the complete suite
 docker compose build && docker compose up -d
 ```
 
-## Application initialisation
+### Initialize the application
 
 Attach to the application container and perform the following steps
 
