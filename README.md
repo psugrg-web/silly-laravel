@@ -23,7 +23,7 @@ docker compose build && docker compose up -d
 
 ### Initialize the application
 
-Attach to the application container and perform the following steps
+Attach to the application container, got to the `app` directory and perform the following steps
 
 Install *composer* packages
 
