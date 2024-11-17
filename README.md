@@ -31,6 +31,12 @@ Install *composer* packages
 composer install
 ```
 
+Generate application key
+
+```sh
+php artisan key:generate
+```
+
 Migrate database (initialize)
 
 ```sh
