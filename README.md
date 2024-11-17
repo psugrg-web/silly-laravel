@@ -1,6 +1,9 @@
-# Silly Docker-based LAMP (Linux Apache Mysql PHP)
+# Silly Docker for Laravel project
 
-Very basic approach that's primarily designed to act as a snippet for simple development.
+Very basic approach that's primarily designed to act as a snippet, or a starting point for simple development.
+
+> [!IMPORTANT]
+> Don't use it in production!
 
 ## Usage
 
