@@ -52,6 +52,7 @@ php artisan migrate
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user
+- It seems like the CSS and JS should be put in the `public` folder
 
 ## Inspiration
 

@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+:root {
+    /* Configuration variables */
+    /* Top Bar */
+    --top-bar-color: black;
+    --top-bar-text-color: #edf0f1;
+
+    /* Content Light Mode */
+    --light-mode-bg-color: #ededf0;
+    --light-mode-bg-color-alt: #e6e8e9;
+    --light-mode-text-color: #1f1f1f;
+    --light-mode-text-color-red: #e91010;
+    /* END Configuration variables */
+}
+
+.light-mode {
+    --bg-color: var(--light-mode-bg-color);
+    --bg-color-highlight: hsl(from var(--light-mode-text-color) h s l / 10%);
+    --bg-color-alt: var(--light-mode-bg-color-alt);
+    --text-color: var(--light-mode-text-color);
+    --text-color-red: var(--light-mode-text-color-red);
+}
+
+.dark-mode {
+    --bg-color: var(--light-mode-text-color);
+    --bg-color-highlight: hsl(from var(--light-mode-bg-color) h s l / 10%);
+    --bg-color-alt: var(--light-mode-bg-color-alt);
+    --text-color: var(--light-mode-bg-color);
+    --text-color-red: var(--light-mode-text-color-red);
+}
+
+* {
+    box-sizing: border-box; /* This makes even spacing on the edge of the screen */
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+}
+
+header {
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2ch 3ch;
+    background-color: var(--top-bar-color);
+    border-bottom: 1px solid var(--text-color);
+}
+
+header,
+header a,
+header button {
+    font-size: 1rem;
+    color: var(--top-bar-text-color);
+}
+
+a,
+button {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+div {
+    color: var(--text-color);
+    max-width: 80ch;
+    margin: auto;
+    padding: 1ch;
+}
+
+nav, 
+nav ul {
+    gap: 1rem;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    padding: 0;
+    justify-content: right;
+}
+
+nav li,
+nav p {
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+nav ul a:hover {
+    text-decoration: underline;
+}
+
+button:not(nav button) {
+    padding-left: 0;
+    padding-right: 0;
+    border-style: none;
+    cursor: pointer;
+    background: none;
+    text-decoration: underline;
+}
+
+nav button,
+nav>a {
+    padding: 0.6ch 1.2ch;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--text-color);
+    border-radius: 2ch;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    background-color: var(--bg-color);
+}
+nav button:hover,
+nav>a:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    transition: all 0.3s ease 0s;
+}
+
+header nav button,
+header nav>a {
+    background-color: var(--top-bar-color);
+    border-color: var(--top-bar-text-color);
+}
+header nav button:hover,
+header nav>a:hover {
+    background-color: var(--top-bar-text-color);
+    color: var(--top-bar-color);
+}
+
+input,
+textarea {
+    width: 100%;
+    padding-top: 0.8vh;
+    padding-bottom: 0.8vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    border-radius: 4px;
+    border: 1px solid var(--text-color);
+    background-color: var(--bg-color-alt);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 3rem;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+td,
+th {
+    border-bottom: 1px solid var(--text-color);
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+}
+
+tr:hover {
+    background-color: var(--bg-color-highlight);
+}
+
+form span {
+    color: var(--text-color-red);
+}
+
+/* Mobile Navigation Bar */
+
+.primary-nav-toggle {
+    display: none;
+}
+
+@media only screen and (max-width: 80ch) {
+    header {
+        height: 5.5rem;
+        box-shadow: none;
+        border: none;
+    }
+
+    header > img {
+        display: none;
+    }
+
+    .primary-nav-scroll-disable {
+        overflow: hidden;
+    }
+
+    .primary-nav span {
+        padding-top: 1rem;
+        width: 60vw;
+        border-top: 1px solid var(--top-bar-text-color);
+        text-align: center;
+    }
+
+    .primary-nav{
+        padding-top: 5.5rem;
+        inset: 0 0 0 0;
+        background: var(--top-bar-color);
+        z-index: 1000;
+        transform: translateY(-100%);
+    }
+
+    .primary-nav[data-visible="true"] {
+        position: fixed;
+        transform: translateY(0%);
+    }
+
+    .primary-nav, 
+    .primary-nav ul {
+        flex-direction: column;
+    }
+
+    .primary-nav-toggle {
+        display: block;
+        position: absolute;
+        z-index: 9999;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0%20-960%20960%20960' width='24px' fill='%23edf0f1'><path d='M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z'/></svg>");
+        width: 1.5rem;
+        aspect-ratio: 1;
+        top: 2rem;
+        right: 2rem;
+    }
+}
