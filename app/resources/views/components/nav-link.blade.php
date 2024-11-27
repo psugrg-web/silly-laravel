@@ -1,8 +1,9 @@
 @props(['active' => false])
 
-@php
-    $btext = '<ins>' . $slot . '</ins>';
-    $text = $active ? $btext : $slot;
-@endphp
-
-<a {{ $attributes }} aria-current="{{ $active ? 'page' : 'false' }}">{!! $text !!}</a>
+<a {{ $attributes }} aria-current="{{ $active ? 'page' : 'false' }}">
+    @if ($active === true)
+        <ins>{{ $slot }}</ins>
+    @else
+        {{ $slot }}
+    @endif
+</a>
