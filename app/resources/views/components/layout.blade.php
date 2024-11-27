@@ -18,9 +18,9 @@
         <button class="primary-nav-toggle"></button>
         <nav class="primary-nav" data-visible="false">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link></li>
+                <li><x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link></li>
+                <li><x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link></li>
             </ul>
             {{-- Uncomment that for Login buttons
             <span></span>
