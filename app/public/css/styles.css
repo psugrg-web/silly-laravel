@@ -31,9 +31,18 @@
 }
 
 * {
-    box-sizing: border-box; /* This makes even spacing on the edge of the screen */
+    box-sizing: border-box;
+    /* This makes even spacing on the edge of the screen */
     font-family: "Montserrat", sans-serif;
-    font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 400;
 }
 
 body {
@@ -74,7 +83,7 @@ div {
     padding: 1ch;
 }
 
-nav, 
+nav,
 nav ul {
     gap: 1rem;
     display: flex;
@@ -117,6 +126,7 @@ nav>a {
     transition: all 0.3s ease 0s;
     background-color: var(--bg-color);
 }
+
 nav button:hover,
 nav>a:hover {
     background-color: var(--text-color);
@@ -129,6 +139,7 @@ header nav>a {
     background-color: var(--top-bar-color);
     border-color: var(--top-bar-text-color);
 }
+
 header nav button:hover,
 header nav>a:hover {
     background-color: var(--top-bar-text-color);
@@ -192,7 +203,7 @@ form span {
         border: none;
     }
 
-    header > img {
+    header>img {
         display: none;
     }
 
@@ -207,7 +218,7 @@ form span {
         text-align: center;
     }
 
-    .primary-nav{
+    .primary-nav {
         padding-top: 5.5rem;
         inset: 0 0 0 0;
         background: var(--top-bar-color);
@@ -220,7 +231,7 @@ form span {
         transform: translateY(0%);
     }
 
-    .primary-nav, 
+    .primary-nav,
     .primary-nav ul {
         flex-direction: column;
     }
