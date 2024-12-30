@@ -7,6 +7,10 @@ Very basic approach that's primarily designed to act as a snippet, or a starting
 
 ## Usage
 
+> [!IMPORTANT]
+>
+> Update the configuration file when pushed to production (like i.w. the `LOG_LEVEL=debug` entry in the `.env` file)
+
 ### Create Docker image
 
 > [!IMPORTANT]
