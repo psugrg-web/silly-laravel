@@ -1,15 +1,11 @@
-# Silly Docker for Laravel project
+# Silly Laravel project
 
-Very basic approach that's primarily designed to act as a snippet, or a starting point for simple development.
-
-> [!IMPORTANT]
-> Don't use it in production!
-
-## Usage
+The very basic *Laravel* project for learning purposes. It contains the notes with description of most important steps in the *Laravel* project. 
 
 > [!IMPORTANT]
->
-> Update the configuration file when pushed to production (like i.w. the `LOG_LEVEL=debug` entry in the `.env` file)
+> Obviously, don't use it in production!
+
+## First steps
 
 ### Create Docker image
 
@@ -24,6 +20,10 @@ Run the following command to compile and run the complete suite
 ```sh
 docker compose build && docker compose up -d
 ```
+
+> [!NOTE]
+>
+> Visit [silly-damp](https://github.com/psugrg-web/silly-damp) for more information on the docker image for this project.
 
 ### Initialize the application
 
@@ -53,11 +53,71 @@ php artisan migrate
 
 [^1]: This should be done even if there's an automatic Bash `UID` read only variable present since it is ignored by the docker.
 
+## Most important steps
+
+### Configuration file
+
+The configuration is stored in the `.env` file inside the `app` directory.
+
+> [!IMPORTANT]
+>
+> Update the configuration file when pushed to production (like i.w. the `LOG_LEVEL=debug` entry in the `.env` file)
+
+### Artisan
+
+The *Laravel* project contains the `artisan` tool to help you configure your application.
+
+Run the following command from the `/app` directory to see all options the *artisan* has.
+
+```sh
+php artisan
+```
+
+> [!IMPORTANT]
+>
+> The *artisan* command is available *only* from the directory of your *Laravel* application. In this case it's the `/app` directory.
+
+### Database
+
+The database is configured during the project initialization. In case of this project, the *MySql* has been selected.
+
+Run `php artisan db::show` to get the information about the database configuration.
+
+### Migrations
+
+Migrations essentially are the automation to control your database. Use it to create, delete or update yor DB.
+
+#### Reset DB and start from scratch
+
+> [!CAUTION]
+>
+> This will destroy all entries in the DB, use it carefully!
+
+Execute `php artisan migrate:refresh` to drop all your entries and re-run all migrations.
+
+#### Rollback las migration
+
+Execute `php artisan migrate:rollback` to revert the last migration.
+
+#### Create migration
+
+Run `php artisan make:migration` to create new migration (migration file). Type a name e.g. `create_flights_table` and hit enter.
+
+##### Add new fields in the new table
+
+Open the file that has been created and edit the `up()` method. Add as many fields as you need.
+
+To add a new *string* field named *title*, add the following to the migration file:
+
+```php
+$table->string('title');
+```
+
+#### Run migrations
+
+Execute `php artisan migrate` to run all migrations. This will re-configure your database (or create it from scratch if it doesn't exist).
+
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user
 - It seems like the CSS and JS should be put in the `public` folder
-
-## Inspiration
-
-- [laravel-apache-docker](https://github.com/veevidify/laravel-apache-docker/tree/master)
