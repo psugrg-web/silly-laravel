@@ -1,6 +1,6 @@
 # Silly Laravel project
 
-The very basic *Laravel* project for learning purposes. It contains the notes with description of most important steps in the *Laravel* project. 
+The very basic *Laravel* project for learning purposes. It contains the notes with description of most important steps in the *Laravel* project.
 
 > [!IMPORTANT]
 > Obviously, don't use it in production!
@@ -77,6 +77,16 @@ php artisan
 >
 > The *artisan* command is available *only* from the directory of your *Laravel* application. In this case it's the `/app` directory.
 
+### Tinker
+
+The *Artisan Tinker* is the *Laravel* environment you can use to access the *runtime* environment of your application.
+
+> [!TIP]
+>
+> Use it as a playground where you can quickly test your ideas.
+
+Use `php artisan tinker` command to run it.
+
 ### Database
 
 The database is configured during the project initialization. In case of this project, the *MySql* has been selected.
@@ -116,6 +126,159 @@ $table->string('title');
 #### Run migrations
 
 Execute `php artisan migrate` to run all migrations. This will re-configure your database (or create it from scratch if it doesn't exist).
+
+### Eloquent ORM (Object Relational Mapper)
+
+The *Eloquent* ORM is used to define **models**[^2] for our application.
+
+> [!NOTE]
+>
+> This section is based on [this laravel tutorial](https://youtu.be/gHQ-OT8V5VU?si=s9XWPEKoWUUaNZJx).
+>
+> Example object is defined in [Job.php](./app/app/Models/Job.php) file.
+>
+> Details can be found on [the *Eloquent* documentation site](https://laravel.com/docs/11.x/eloquent).
+
+#### Automatic model generation
+
+> [!NOTE]
+>
+> Most likely this is the most useful way of creating models.
+
+The *Laravel* project comes with the `make:model` *artisan* utility that can be use to automatically create the model.
+
+Use `php artisan make:model Comment` to create a new *model* named *Comment*. This will create a new file `app/Models/Comment.php` that will contain the *model*.
+
+> [!TIP]
+>
+> The `artisan make:model` can automatically create not only the *model*, but also *migration*, *controller* and more.
+
+Use `php artisan make:model Post -m` to create new *model* named *Post* and a corresponding *migration*. This will create new files `app/Models/Post.php` and `database/migrations/2024_03_1234_create_posts_table.php` that will contain the *model* and the corresponding *migration*.
+
+> [!TIP]
+> 
+> Use `artisan help make:model` to learn more about this utility.
+
+#### Manual model generation
+
+> [!NOTE]
+>
+> Most likely you'll never do it manually.
+
+Extend the `Model` class to create a new model.
+
+```php
+class Item extends Model {
+}
+```
+
+> [!TIP]
+>
+> With *Eloquent* you can access tables and fields in the DB without a need of implementing a complete structure of the model in the code. It'll be created for you by the *Eloquent*.
+
+[^2]: Model as in the Model View Controller
+
+#### Naming convention for automatic table name detection
+
+> [!IMPORTANT]
+>
+> *Eloquent* can **automatically** get the name of the *table* in the DB from the name of the *model* class!
+
+If you want the *Eloquent* to automatically detect the name of the table in the DB, you must name your class accordingly to the naming convention:
+
+|Table name in DB| Class name in the model |
+|----------------|-------------------------|
+|my_items        | MyItem                  |
+
+> [!IMPORTANT]
+>
+> Note the **s** in the table name and the lack of it in the class name!
+>
+> Eloquent uses the *CamelCase* notation and expects the table to use the *hungarian notation*.
+> It also expects the table name to be plural and the class name to be singular
+
+#### Explicit table name in the model
+
+Instead of letting the *Eloquent* to automatically detect the name of the table from the name of the class, it's possible to explicitly specify the table name bu using the `protected $table` variable in the object class.
+
+```php
+class Item extends Model {
+    protected $table = 'my_items';
+}
+```
+
+#### Naming convention for fields
+
+*Eloquent* is able to access individual entries from the table just by using the name of the field.
+
+```php
+$jobs = Job::all();
+dd($jobs[0]->title);
+```
+
+The code above will access the `title` field in the first entry in the table.
+
+> [!IMPORTANT]
+>
+> In this case, the naming convention requires the name of the field in the table to match exactly the name of the field in the code.
+
+#### Fields mass assignments
+
+Bu default *Laravel* prevents fields mass assignments to protect the DB from the malicious changes that could sneak into the DB by using this method.
+
+In order to use mass assignment, the model class must specify fields that are safe to be mass assigned. Do that by adding names of these fields to the `protected $fillable` variable.
+
+```php
+protected $fillable = ['title', 'salary'];
+```
+
+This will inform *Eloquent* that only those fields can be mass assigned.
+
+Example of the mass assignment in the [Tinker](#tinker) utility:
+
+```php
+App\Models\Job::create(['title' => 'Acme Director', 'salary' => '$1,000,000']);
+```
+
+The above code will result in an update of the DB table:
+
+```php
+= App\Models\Job {#5225
+    title: "Acme Director",
+    salary: "$1,000,000",
+    updated_at: "2025-01-01 16:23:15",
+    created_at: "2025-01-01 16:23:15",
+    id: 4,
+  }
+```
+
+#### Finding specific record
+
+Use the `find($id)` method to find the record by *ID*.
+
+Example of the mass assignment in the [Tinker](#tinker) utility:
+
+```php
+$job = App\Models\Job::find(4);
+```
+
+The above code will result in the listing of the entry:
+
+```php
+= App\Models\Job {#5210
+    id: 4,
+    title: "Acme Director",
+    salary: "$1,000,000",
+    created_at: "2025-01-01 16:23:15",
+    updated_at: "2025-01-01 16:23:15",
+  }
+```
+
+Now the `$job` variable will contain the entry that was found.
+
+#### Delete entry
+
+Use `delete()` method on the entry object to delete it `$job->delete()`.
 
 ## Notes
 
