@@ -280,6 +280,91 @@ Now the `$job` variable will contain the entry that was found.
 
 Use `delete()` method on the entry object to delete it `$job->delete()`.
 
+### Model Factories
+
+> [!NOTE]
+>
+> This section is based on the [Model Factories tutorial](https://youtu.be/9O_WD5zQGxM?si=xK2WZc3FqMiXY7Q7)
+
+The *model factory* can be used to quickly scaffold example data. This is a useful tool to quickly create a bunch of fake data (like 100 fake users).
+
+> [!NOTE]
+>
+> Factories are located in the `database/factories` directory.
+
+To create a factory use `php artisan make:factory`.
+
+The following example will make a new factory named *JobFactory*
+
+```php
+php artisan make:factory JobFactory
+```
+
+> [!TIP]
+>
+> Use `php artisan help make:factory` to get extra details.
+
+To use that factory call `App\Models\Job::factory()->create()` in the *artisan tinker* tool.
+
+```php
+App\Models\Job::factory()->create()
+```
+
+The example above will create one fake job entry in the DB.
+
+If you add a number as an argument to the `factory()` method, you'll ask *Laravel* to create a number of entries.
+
+```php
+App\Models\Job::factory(100)->create()
+```
+
+To create a variant of the object in the DB you can call a a specific function from the factory that creates this variant.
+
+```php
+App\Models\User::factory()->unverified()->create()
+```
+
+The example above will create a user with an unverified email address.
+
+#### Relations to other models
+
+If your model has a relation to other models, you can reflect that in the factory by calling the factory of the other model.
+
+```php
+class JobFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'title' => fake()->jobTitle(),
+            'employer_id' => Employer::factory(),
+            'salary' => '$50,000 USD'
+        ];
+    }
+}
+```
+
+The example above will create a new *employer* and assign his ID to the fild of the *job* object.
+
+The following example will create a ten *job* entries and ten *employers* entries each one assigned to a corresponding *job* entry.
+
+```php
+App\Models\Job::factory(10)->create()
+```
+
+> [!TIP]
+>
+> If you want *job* entries to share the same *employer* you can make use of the `recycle()` method. The following example will create three *job* entries sharing the common *employer*
+>
+> ```php
+> App\Models\Job::factory(3)->recycle(App\Models\Employer::factory()->create())->create()
+> ```
+
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user
