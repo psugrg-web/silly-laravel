@@ -328,6 +328,10 @@ The example above will create a user with an unverified email address.
 
 #### Relations to other models
 
+> [!TIP]
+>
+> More on that in the [Eloquent relationships](#eloquent-relationships) chapter
+
 If your model has a relation to other models, you can reflect that in the factory by calling the factory of the other model.
 
 ```php
@@ -364,6 +368,83 @@ App\Models\Job::factory(10)->create()
 > ```php
 > App\Models\Job::factory(3)->recycle(App\Models\Employer::factory()->create())->create()
 > ```
+
+### Eloquent relationships
+
+> [!NOTE]
+>
+> This section is based on the [Two Key Eloquent Relationship Types](https://youtu.be/9ETUz-cgXI4?si=BjRkN0mSowmoDFZ2)
+
+Eloquent relationships are a vay of handling relations between models (DB objects).
+
+The relation is defined in the model and in the migration.
+
+#### Relation definition in the migration
+
+The migration can define a relation to other model i.e. by using a `foreignIdFor()` method.
+
+```php
+public function up(): void
+{
+    Schema::create('job_listings', function (Blueprint $table) {
+        $table->id();
+        $table->foreignIdFor(\App\Models\Employer::class);
+        $table->string('title');
+        $table->string('salary');
+        $table->timestamps();
+    });
+}
+```
+
+Above example shows how to add a relation to the `Employer` class by using its ID stored in the DB. Eloquent is able to automatically understand this and search for the related objet by referring to that ID.
+
+#### Belongs-To relation in the model
+
+The model must also be modified in order to understand the relation to the other object. You can use it by implementing a getter function that will return the related object.
+
+```php
+public function employer()
+{
+    return $this->belongsTo(Employer::class);
+}
+```
+
+This method uses the built in `belongsTo()` method that will ask *Eloquent* to perform a new query to search the database for the object referred by the ID stored in the field defined by the migration.
+
+In order to use it you must call it as if you were accessing a property `$job->employer`, not a function call.
+
+```php
+$job = App\Models\Jobfirst();
+$job->employer;
+```
+
+Using it this way will instruct *Laravel* to perform that search and retrieve the *Employer* object.
+
+#### Has-Many relation in the model
+
+The *Employer* model has a similar relation to the *Job* class but it can have *many* of such *Job* objects.
+
+In such situation, where a model has relation *one-to-many*, implement it in the model using the `hasMany()` method.
+
+```php
+public function jobs()
+{
+    return $this->hasMany(Job::class);
+}
+```
+
+Use it in a similar way as in the example above.
+
+```php
+$employer = App\Models\Employer::first();
+$employer->jobs;
+```
+
+This will return the *Laravel* collection object containing the list of all *Jobs* related to that *Employer*.
+
+> [!TIP]
+>
+> Remember to access it as if it was a property `$employer->jobs`, otherwise it will not work correctly.
 
 ## Notes
 
