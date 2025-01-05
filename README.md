@@ -63,6 +63,14 @@ The configuration is stored in the `.env` file inside the `app` directory.
 >
 > Update the configuration file when pushed to production (like i.w. the `LOG_LEVEL=debug` entry in the `.env` file)
 
+### Laravel Debug Bar
+
+Debug bar is helps you debug your *Laravel* project. Find details [on the github page](https://github.com/barryvdh/laravel-debugbar).
+
+> [!IMPORTANT]
+>
+> Remember to disable debug function on production `APP_DEBUG=false` in the `.env` file.
+
 ### Artisan
 
 The *Laravel* project contains the `artisan` tool to help you configure your application.
@@ -567,6 +575,57 @@ The example above makes a new table `job_tag` and adds an entry containing the f
 > [!IMPORTANT]
 >
 > Please make sure that the constraints are enabled in your DB engine. They are enabled by default in *MySQL* but disabled in *SQLite*. To enable it in *SQLite*, call `PRAGMA foreign_keys=on` in your *SQLite* client app.
+
+### N+1 problem
+
+> [!NOTE]
+>
+> This section is based on the [Eager Loading and the N+1 Problem](https://youtu.be/gaW9KODumUg?si=jR6xCcZu_lsiS1ue)
+
+The N+1 problem is often caused by the not optimal number of queries to database related to lazy loading mechanism in *Eloquent*. It will try to not to load anything more than it currently needs.
+
+This means that in case where there's a relation between elements each element will be loaded individually and then also it's relation will be loaded individually. This will generate huge (N+1) number of queries.
+
+To fix that we must implement eager loading. We must instruct *Laravel* to get all entries at once together with related entries.
+
+```php
+Route::get('/jobs', function () {
+    // Prevent the N+1 problem by getting all the jobs in one query and also instructing Laravel to gen all employers that will also be needed
+    $jobs = Job::with('employer')->get();
+    return view('jobs', [
+        'jobs' => $jobs,
+    ]);
+});
+```
+
+The code above will create only two queries: one for loading all jobs and second one for loading all employers that are related to jobs.
+
+#### Disabling lazy-loading
+
+It's possible to disable *lazy loading* globally. Some developers do that but it seems like there's still a discussion that has no conclusion.
+
+> [!IMPORTANT]
+>
+> You should choose either the lazy-loading mechanism should be enabled or disabled in your project mindfully. If you choose to keep it, you should be aware of the N+1 problem.
+
+To disable lazy-loading, go to the `AppServiceProvider.php` file located in the `/app/Providers` directory.
+
+```php
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    // Disable lazy-loading
+    Model::preventLazyLoading();
+}
+```
+
+After disabling lazy-loading, *Laravel* will warn you every time you implement something that will trigger lazy-loading mechanism, forcing you to implement the eager-loading instead.
+
+> [!TIP]
+>
+> The `AppServiceProvider.php` file is used to configure the application.
 
 ## Notes
 

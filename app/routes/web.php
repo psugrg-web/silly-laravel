@@ -8,8 +8,10 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs', function () {
+    // Prevent the N+1 problem by getting all the jobs in one query and also instructing Laravel to gen all employers that will also be needed
+    $jobs = Job::with('employer')->get();
     return view('jobs', [
-        'jobs' => Job::all()
+        'jobs' => $jobs,
     ]);
 });
 
