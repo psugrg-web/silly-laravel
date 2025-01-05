@@ -9,7 +9,9 @@ class Job extends Model
 {
     use HasFactory;
 
+    // Explicitly specify the name of the table in the DB (in case it cannot be deduced automatically)
     protected $table = 'job_listings';
+    // Specify fields that can be mass-assigned
     protected $fillable = ['title', 'salary'];
 
     public function employer()
