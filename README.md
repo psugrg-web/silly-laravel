@@ -127,7 +127,7 @@ $table->string('title');
 
 Execute `php artisan migrate` to run all migrations. This will re-configure your database (or create it from scratch if it doesn't exist).
 
-### Eloquent ORM (Object Relational Mapper)
+### Models & Eloquent ORM (Object Relational Mapper)
 
 The *Eloquent* ORM is used to define **models**[^2] for our application.
 
@@ -156,7 +156,7 @@ Use `php artisan make:model Comment` to create a new *model* named *Comment*. Th
 Use `php artisan make:model Post -m` to create new *model* named *Post* and a corresponding *migration*. This will create new files `app/Models/Post.php` and `database/migrations/2024_03_1234_create_posts_table.php` that will contain the *model* and the corresponding *migration*.
 
 > [!TIP]
-> 
+>
 > Use `artisan help make:model` to learn more about this utility.
 
 #### Manual model generation
@@ -449,6 +449,124 @@ This will return the *Laravel* collection object containing the list of all *Job
 > [!TIP]
 >
 > Remember to access it as if it was a property `$employer->jobs`, otherwise it will not work correctly.
+
+### Pivot tables
+
+> [!NOTE]
+>
+> This section is based on the [Pivot Tables and BelongsToMany Relationships](https://youtu.be/x1UCiE0hZiw?si=lX4bOvKI8o9pQObe)
+
+Pivot table connects two other tables logically. In case of this example project you can connect *jobs* with *tags* via the pivot table.
+
+> [!TIP]
+>
+> Pivot table can have it's ovn migration file or it can be integrated with the other migration. In our case it's integrated with the *tags* table migration.
+
+#### Belong-To-Many relation
+
+Pivot table is an example of a belongs-to-many relation. One job may belong to many tags but also one tag may belong to many jobs.
+
+This type of relation is coded using the `belongsToMany()` method in the model class. 
+
+```php
+class Tag extends Model
+{
+    /** @use HasFactory<\Database\Factories\TagFactory> */
+    use HasFactory;
+
+    public function jobs()
+    {
+        return $this->belongsToMany(Job::class);
+    }
+}
+```
+
+```php
+class Job extends Model
+{
+    use HasFactory;
+
+    // Explicitly specify the name of the table in the DB (in case it cannot be deduced automatically)
+    protected $table = 'job_listings';
+    // Specify fields that can be mass-assigned
+    protected $fillable = ['title', 'salary'];
+
+    public function employer()
+    {
+        return $this->belongsTo(Employer::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+}
+```
+
+> [!NOTE]
+>
+> In our case we must explicitly specify the `foreignPivotKey` and the `relatedPivotKey` since the name of the Job class is no following the convention and provides a custom name `job_listings` for the table.
+>
+> ```php
+> return $this->belongsToMany(Tag::class, foreignPivotKey: "job_listing_id");
+> ```
+>
+> ```php
+> return $this->belongsToMany(Job::class, relatedPivotKey: "job_listing_id");
+> ```
+
+##### Get the list of elements from the pivot table
+
+Use it in a similar way as the other relations
+
+```php
+$tag = App\Models\Tag::find(1);
+$tag->jobs;
+```
+
+This example will get the list of all jobs attached to that tag.
+
+In case you want to get only the job titles associated with that tag, use the `pluck()` method.
+
+```php
+$tag->jobs()->get()->pluck('title');
+```
+
+##### Attach new record to the pivot table
+
+Use the `Attach()` method to attach new object and create a new entry in the pivot table. This method expects the ID of the element to attach, so either of those will work.
+
+```php
+$tag->jobs()->attach(7);
+```
+
+```php
+$tag->jobs()->attach(App\Models\Job::find(7));
+```
+
+> [!IMPORTANT]
+>
+> *Laravel* uses cache and will not reach for the new data when using the standard `$tag->jobs`. In order to invalidate the cache and force *Laravel* to refetch the data from DB, use `$tag->jobs()->get()`.
+
+### SQL constraints
+
+[SQL constraints](https://www.w3schools.com/sql/sql_constraints.asp) are used to specify rules for data in a table.
+
+It's commonly used to cascade a delete action performed on one DB entry to a related DB entry that cannot exists without the first one.
+
+In *Laravel* you can use the `constrained()` function in the migration file and select a desired constrain.
+
+```php
+Schema::create('job_tag', function (Blueprint $table) {
+    $table->foreignIdFor(\App\Models\Tag::class)->constrained()->cascadeOnDelete();
+});
+```
+
+The example above makes a new table `job_tag` and adds an entry containing the foreign ID of the *Tag* class. It also creates a constrain that it should cascade the delete process. This way, if a `tag` entry will be deleted, the corresponding `job_tag` entry will also be deleted.
+
+> [!IMPORTANT]
+>
+> Please make sure that the constraints are enabled in your DB engine. They are enabled by default in *MySQL* but disabled in *SQLite*. To enable it in *SQLite*, call `PRAGMA foreign_keys=on` in your *SQLite* client app.
 
 ## Notes
 

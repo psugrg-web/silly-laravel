@@ -18,4 +18,12 @@ class Job extends Model
     {
         return $this->belongsTo(Employer::class);
     }
+
+    public function tags()
+    {
+        // In this case we must explicitly provide the foreignPivotKey name since the Job class name
+        // is different from the table name for that class. Laravel cannot deduce the foreignPivotKey
+        // automatically in this case
+        return $this->belongsToMany(Tag::class, foreignPivotKey: "job_listing_id");
+    }
 }
