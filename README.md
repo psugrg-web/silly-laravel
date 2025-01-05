@@ -411,10 +411,14 @@ public function employer()
 
 This method uses the built in `belongsTo()` method that will ask *Eloquent* to perform a new query to search the database for the object referred by the ID stored in the field defined by the migration.
 
+> [!IMPORTANT]
+>
+> The name of the getter function **must** follow the name of the class it relates to. I.e. for the class named ***Employer*** it must be named ***employer***; for the class named ***JobCategory*** it must be named ***jobCategory***.
+
 In order to use it you must call it as if you were accessing a property `$job->employer`, not a function call.
 
 ```php
-$job = App\Models\Jobfirst();
+$job = App\Models\Job::first();
 $job->employer;
 ```
 
