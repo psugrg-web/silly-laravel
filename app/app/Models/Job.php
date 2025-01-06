@@ -12,7 +12,9 @@ class Job extends Model
     // Explicitly specify the name of the table in the DB (in case it cannot be deduced automatically)
     protected $table = 'job_listings';
     // Specify fields that can be mass-assigned
-    protected $fillable = ['title', 'salary'];
+    // protected $fillable = ['employer_id', 'title', 'salary'];
+    // Define an empty $guarded field will disable mass assignment protection feature
+    protected $guarded = [];
 
     public function employer()
     {

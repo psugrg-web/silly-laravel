@@ -35,8 +35,9 @@
 
     <div>
         <h1>{{ $heading }}</h1>
-        {{ $slot }}
+        <p>{{ $description ?? '' }}</p>
     </div>
+    {{ $slot }}
 </body>
 
 </html>

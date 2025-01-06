@@ -260,6 +260,16 @@ The above code will result in an update of the DB table:
   }
 ```
 
+Alternatively you can choose the opposite approach and define fields that are guarded by using the `$guarded` field.
+
+```php
+protected $guarded = ['employer_id'];
+```
+
+> [!WARNING]
+>
+> Defining the empty `$guarded` field will **disable** the mass assignment protection feature.
+
 #### Finding specific record
 
 Use the `find($id)` method to find the record by *ID*.
@@ -646,6 +656,10 @@ Route::get('/jobs', function () {
 });
 ```
 
+> [!TIP]
+>
+> You can specify the order the elements will be provided to the paginator, i.e. `latest()` will provide the most recently changed entries first `$jobs = Job::with('employer')->latest()->paginate(3);`.
+
 To add links in the page, you can just add `{{ $jobs->links() }}` in your blade file containing a view.
 
 ```html
@@ -735,6 +749,68 @@ To run seeder in isolation use `php artisan db:seed --class=JobSeeder` (where `J
 > [!TIP]
 >
 > Isolated seeders can be used to prepare a specific state of the DB to perform a specific test.
+
+### Wildcard routes
+
+> [!NOTE]
+>
+> This section is based on the [Forms and CSRF Explained (with Examples)](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
+
+Wildcard routes are routs that can get any parameter as an input and process it in a dedicated view.
+
+```php
+Route::get('/jobs/{id}', function ($id) {
+
+    $job = Job::find($id);
+
+    return view('job', ['job' => $job]);
+});
+```
+
+The code above creates a route to a specific *job* of the *id* provided in {id}. Note that it can accept anything hence it is a wildcard.
+
+> [!IMPORTANT]
+>
+> Wildcard routs must be declared after more specific routes otherwise the specific route will never be called. The request will be consumed by the wildcard route.
+
+### Folders structure & naming convention
+
+> [!NOTE]
+>
+> This section is based on the [Forms and CSRF Explained (with Examples)](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
+
+General convention for views is to name the folder with the name of the view it represents i.e. `jobs` folder will contain views related to displaying jobs. Files (views) should be named after the action they're performing. i.e. `index.blade.php` to display the list of jobs, `show.blade.php` for displaying a single job, `create.blade.php` for creating a new job entry etc.
+
+```text
+> views
+    > jobs
+        index.blade.php
+        show.blade.php
+        create.blade.php
+```
+
+> [!TIP]
+>
+> You can use `.` for folder separation instead of `/`, e.g. `jobs.index` instead of `jobs/index`.
+
+### CSRF
+
+> [!NOTE]
+>
+> This section is based on the [Forms and CSRF Explained (with Examples)](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
+
+The [CSRF](https://pl.wikipedia.org/wiki/Cross-site_request_forgery)(Cross-site request forgery), also known as one-click attack or session riding and abbreviated as CSRF (sometimes pronounced sea-surf[1]) or XSRF, is a type of malicious exploit of a website or web application where unauthorized commands are submitted from a user that the web application trusts.
+
+> [!NOTE]
+>
+> *Laravel* has a built-in mechanism that prevents that from happening
+
+When posting a form we must use a special CSRF token that validates the request in order for the POST request to be accepted by the *Laravel*. To request the token use the `@csrf` *Laravel* directive in the *form* body.
+
+```php
+<form method="POST" action="/jobs">
+    @csrf
+```
 
 ## Notes
 
