@@ -304,7 +304,7 @@ To create a factory use `php artisan make:factory`.
 
 The following example will make a new factory named *JobFactory*
 
-```php
+```sh
 php artisan make:factory JobFactory
 ```
 
@@ -658,7 +658,7 @@ To add links in the page, you can just add `{{ $jobs->links() }}` in your blade 
 >
 > Laravel assumes that the application uses [Tailwind CSS](https://tailwindcss.com/). This is true also in case of the *pagination* functionality. *Laravel* will automatically assume that the tailwind CSS style is installed.
 
-### Editing defalul *Laravel* views
+### Editing defalut *Laravel* views
 
 > [!NOTE]
 >
@@ -701,6 +701,40 @@ public function boot(): void
     Paginator::defaultView('pagination::my-default');
 }
 ```
+
+### Database seeders
+
+> [!NOTE]
+>
+> This section is based on the [Understanding Database Seeders](https://youtu.be/wYLkf75lpT8?si=DT2vyAGoCeTuo6gj)
+
+Database seeders are another way of populating the database with fake data. Hovewer, they can populate not only one collection, they can populate the entire DB.
+
+> [!NOTE]
+>
+> Database seeders are useful to set a desired state of the DB. It can be used to set a certain test conditions.
+
+Database seeders are located in the `app/database/seeders` path. You can find a default seeder in `DatabaseSeeder.php` file. To run it, use `php artisan db:seed` in your terminal.
+
+In case you want start fresh and perform the database seed operation (and this is usually the case), you may just use the `--seed` option in the `php artisan migrate:fresh` command
+
+```sh
+php artisan migrate:fresh --seed
+```
+
+> [!NOTE]
+>
+> You can either extend the default seeder or create a new one. The new one can be a separate seeder or it can be included to the default seeder.
+
+#### Make seeder
+
+Use `php artisan make:seeder` command to create a standalone seeder class.
+
+To run seeder in isolation use `php artisan db:seed --class=JobSeeder` (where `JobSeeder` is the name of the seeder class that you want to trigger).
+
+> [!TIP]
+>
+> Isolated seeders can be used to prepare a specific state of the DB to perform a specific test.
 
 ## Notes
 
