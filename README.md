@@ -627,6 +627,81 @@ After disabling lazy-loading, *Laravel* will warn you every time you implement s
 >
 > The `AppServiceProvider.php` file is used to configure the application.
 
+### Pagination
+
+> [!NOTE]
+>
+> This section is based on the [All You Need to Know About Pagination](https://youtu.be/oLy1uXU1q7c?si=NMg_vKJ2pakoW7yN)
+
+[Pagination](https://en.wikipedia.org/wiki/Pagination), also known as paging, is the process of dividing a document into discrete pages, either electronic pages or printed pages.
+
+In *Laravel* pagination is simple, enable it by using `paginate()` method in your *route* file. Here's an example from the `app/routes/web.php` file.
+
+```php
+Route::get('/jobs', function () {
+    $jobs = Job::with('employer')->paginate(3);
+    return view('jobs', [
+        'jobs' => $jobs,
+    ]);
+});
+```
+
+To add links in the page, you can just add `{{ $jobs->links() }}` in your blade file containing a view.
+
+```html
+<div>
+    {{ $jobs->links() }}
+</div>
+```
+
+> [!WARNING]
+>
+> Laravel assumes that the application uses [Tailwind CSS](https://tailwindcss.com/). This is true also in case of the *pagination* functionality. *Laravel* will automatically assume that the tailwind CSS style is installed.
+
+### Editing defalul *Laravel* views
+
+> [!NOTE]
+>
+> This section is based on the [All You Need to Know About Pagination](https://youtu.be/oLy1uXU1q7c?si=NMg_vKJ2pakoW7yN)
+
+In case you don't use the [Tailwind CSS](https://tailwindcss.com/), which is assumed by *Laravel* to be the default style engine, you must edit *Laravel* views manually. You can select other style engine or just use your own style and build view manually.
+
+> [!NOTE]
+>
+> The *Laravel* views are not by default accessible to the developer. If you want to modify them, you must first publish them so that they are publicly available.
+
+To publish views use the `php artisan vendor:publish` command and select whatever component you want to publish. In our example it's the `Tag: laravel-pagination` view.
+
+```sh
+~/project/app$ php artisan vendor:publish
+
+ ┌ Which provider or tag's files would you like to publish? ─────┐
+ │ pagination                                                    │
+ ├───────────────────────────────────────────────────────────────┤
+ │   Provider: Illuminate\Pagination\PaginationServiceProvider   │
+ │ › Tag: laravel-pagination                                     │
+ └───────────────────────────────────────────────────────────────┘
+```
+
+The published views are copied to the `resources/views/vendor/pagination` directory.
+
+You can either select a new view that uses a different technology (like Bootstrap) or select a custom one by modifying the `boot()` method in the `AppServiceProvider.php` file. You can also tweak an existing view by modifying the view blade file i.e. `app/resources/views/vendor/pagination/tailwind.blade.php`.
+
+Select *Bootstrap* view by adding `Paginator::useBootstrap()` to the `boot()` method in the `AppServiceProvider.php` file.
+
+Select a custom view by adding `Paginator::defaultView('pagination::default')`  to that file.
+
+```php
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    // Set the custom Paginator view
+    Paginator::defaultView('pagination::my-default');
+}
+```
+
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user

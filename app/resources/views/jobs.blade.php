@@ -2,21 +2,35 @@
     <x-slot:heading>
         Job listing
     </x-slot:heading>
-    <table>
-        <tbody>
-            @foreach ($jobs as $job)
+    <div>
+        <table>
+            <tbody>
                 <tr>
-                    <td>
-                        <h4>{{ $job->employer->name }}</h4>
-                        <a href="/jobs/{{ $job['id'] }}">
-                            <strong>{{ $job['title'] }}</strong>
-                        </a>
-                    </td>
-                    <td>
-                        Pays {{ $job['salary'] }} per year.
-                    </td>
+                    <th></th>
+                    <th></th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @foreach ($jobs as $job)
+                    <tr>
+                        <td>
+                            <div>
+                                <h4>{{ $job->employer->name }}</h4>
+                                <a href="/jobs/{{ $job['id'] }}">
+                                    <strong>{{ $job['title'] }}</strong>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                Pays {{ $job['salary'] }} per year.
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div>
+        {{-- Pagination --}}
+        {{ $jobs->links() }}
+    </div>
     </x-loyout>
