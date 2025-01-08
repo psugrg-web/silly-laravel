@@ -95,6 +95,17 @@ The *Artisan Tinker* is the *Laravel* environment you can use to access the *run
 
 Use `php artisan tinker` command to run it.
 
+### Reusable components
+
+> [Video](https://youtu.be/H5R3vV38QiM?si=wdhI5tmlLRCMnhiw)  
+> [Laravel docs](https://laravel.com/docs/11.x/blade#main-content)
+
+Reusable components are like a blue-prints for components with *slots* that can be set to different values when used. They are `blade` components that can be reused using the `x-` prefix i.e. `<x-button href="/jobs/create">Add New Job Offer</x-button>`.
+
+Reusable components should be located in the `app/resources/views/components` directory (create it if it doesn't exist).
+
+Within the blade component file we specify where the *slot* will be inserted. The slot is everything is in-between of the tag, e.g. `<x-example>this is the slot text</x-example>`. The slot can be inserted in the blade component by using the `{{ $slot }}`.
+
 ### Database
 
 The database is configured during the project initialization. In case of this project, the *MySql* has been selected.
@@ -795,9 +806,8 @@ General convention for views is to name the folder with the name of the view it 
 
 ### CSRF
 
-> [!NOTE]
->
-> This section is based on the [Forms and CSRF Explained (with Examples)](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
+> [Video](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)  
+> [Laravel docs](https://laravel.com/docs/11.x/csrf#main-content)
 
 The [CSRF](https://pl.wikipedia.org/wiki/Cross-site_request_forgery)(Cross-site request forgery), also known as one-click attack or session riding and abbreviated as CSRF (sometimes pronounced sea-surf[1]) or XSRF, is a type of malicious exploit of a website or web application where unauthorized commands are submitted from a user that the web application trusts.
 
@@ -811,6 +821,50 @@ When posting a form we must use a special CSRF token that validates the request 
 <form method="POST" action="/jobs">
     @csrf
 ```
+
+### Request validation
+
+> [Video](https://youtu.be/tROESL4trkQ?si=kHOHiC_aaAnXFAjT)  
+> [Laravel docs](https://laravel.com/docs/11.x/validation)
+
+Use `request()->validate()` to request *Laravel* to validate the data included in the request.
+
+```php
+request()->validate([
+    'title' => ['required', 'min:3'],
+    'salary' => ['required']
+]);
+```
+
+The code above will expect two entries: `title` and `salary`, both are required, first one should be at least three characters long.
+
+#### Displaying validation errors
+
+Use `$errors` variable that contains errors (if any) to inform the user of any validation errors.
+
+> [!NOTE]
+>
+> The `$errors` variable is **always** available, even if there are no errors.
+
+```php
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <span>{{ $error }}</span>
+    @endforeach
+@endif
+```
+
+The example above will display all errors stored in the `$errors` variable.
+
+Instead of printing all errors in one go, you can print a specific error, related to a specific tag.
+
+```php
+@error('title')
+    {{ $message }}
+@enderror
+```
+
+The example above will print only error related to the `title` tag.
 
 ## Notes
 

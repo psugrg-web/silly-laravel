@@ -3,6 +3,9 @@
         Job listing
     </x-slot:heading>
     <div>
+        <x-button href="/jobs/create">Add New Job Offer</x-button>
+    </div>
+    <div>
         <table>
             <tbody>
                 <tr>
