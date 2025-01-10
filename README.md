@@ -930,6 +930,175 @@ Since web browsers don't natively support the *delete* request, me must use a tw
 >
 > Note that the *button* doesn't need to be within the *form*, it can be anywhere on the page. Note also that the form is *hidden*.
 
+### Route Model Binding
+
+> [Video](https://youtu.be/0edxA7D_RvQ?si=RNK7fVsmD7Nxbyz5)  
+> [Laravel docs](https://laravel.com/docs/11.x/folio#route-model-binding)
+
+The following code:
+
+```php
+Route::get('/jobs/{id}', function ($id) {
+    $job = Job::find($id);
+    return view('jobs.show', ['job' => $job]);
+});
+```
+
+Is something that is used many times across all projects. *Laravel* can support developer providing a common convention for that. So that the code can be replaced with:
+
+```php
+Route::get('/jobs/{job}', function (Job $job) {
+    return view('jobs.show', ['job' => $job]);
+});
+```
+
+Pay attention to the change `id` -> `job`. By following the naming convention, *Laravel* can understand that you're trying to access a single entry in the DB. By using a type in a function parameter we instruct *Laravel* to use the *Job* class to find it.
+
+> [!TIP]
+>
+> You can configure this functionality. More on that in the video or in Laravel documentation.
+
+### Controller Classes
+
+> [Video](https://youtu.be/0edxA7D_RvQ?si=RNK7fVsmD7Nxbyz5)  
+> [Laravel docs](https://laravel.com/docs/11.x/controllers#main-content)
+
+Create controller by using `php artisan make:controller`.
+
+> [!NOTE]
+>
+> You can also do it when making a model by adding `-c` option to the `php artisan make:model` command.
+
+Name your controller by adding the name of the controller and add `Controller` at the end, e.g. `JobController`.
+
+Select `Empty` as a starting point, or read the documentation to learn more.
+
+In the controller class you can implement the logic for handling requests (instead of keepin it all in the route file).
+
+Routes file:
+
+```php
+Route::get('/jobs', [JobController::class, 'index']);
+```
+
+Controller:
+
+```php
+class JobController extends Controller
+{
+    public function index()
+    {
+        // Prevent the N+1 problem by getting all the jobs in one query and also instructing Laravel to gen all employers that will also be needed
+        $jobs = Job::with('employer')->latest()->paginate(3);
+        return view('jobs.index', [
+            'jobs' => $jobs,
+        ]);
+    }
+}
+```
+
+### Route view
+
+> [Video](https://youtu.be/0edxA7D_RvQ?si=RNK7fVsmD7Nxbyz5)
+
+For static pages, where we just want a simple view, we may use `Route::view()` instead of `Route::get()` int the route file.
+
+This:
+
+```php
+Route::get('/', function () {
+    return view('home');
+});
+```
+
+is equivalent to that:
+
+```php
+Route::view('/', 'home');
+```
+
+### List your routes
+
+> [Video](https://youtu.be/0edxA7D_RvQ?si=RNK7fVsmD7Nxbyz5)
+
+If you want to list all your routs within the project, use the `php artisan route:list` command. Use `--except-ventor` option to hide routes from external packages.
+
+### Route groups
+
+> [Video](https://youtu.be/0edxA7D_RvQ?si=RNK7fVsmD7Nxbyz5)
+
+You can group routes to avoid repetitions.
+
+This:
+
+```php
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs', 'index');
+    Route::get('/jobs/create', 'create');
+    Route::get('/jobs/{job}', 'show');
+    Route::post('/jobs', 'store');
+    Route::get('/jobs/{job}/edit', 'edit');
+    Route::patch('/jobs/{job}', 'update');
+    Route::delete('/jobs/{job}', 'destroy');
+});
+```
+
+Is equivalent to that:
+
+```php
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/create', [JobController::class, 'create']);
+Route::get('/jobs/{job}', [JobController::class, 'show']);
+Route::post('/jobs', [JobController::class, 'store']);
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit']);
+Route::patch('/jobs/{job}', [JobController::class, 'update']);
+Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
+```
+
+### Route resource
+
+> [Video](https://youtu.be/0edxA7D_RvQ?si=RNK7fVsmD7Nxbyz5)
+
+Laravel can automatically handle routes for a typical (Restful or Resourceful) controller!
+
+This code:
+
+```php
+Route::resource('jobs', JobController::class);
+```
+
+Is equivalent to that one:
+
+```php
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs', 'index');
+    Route::get('/jobs/create', 'create');
+    Route::get('/jobs/{job}', 'show');
+    Route::post('/jobs', 'store');
+    Route::get('/jobs/{job}/edit', 'edit');
+    Route::patch('/jobs/{job}', 'update');
+    Route::delete('/jobs/{job}', 'destroy');
+});
+```
+
+> [!IMPORTANT]
+>
+> The `Route::resource` assumes that the controller has *index, create, show, store, edit, update* and *destroy* route handlers implemented!
+
+If you don't need all of these routes, you can specify a list of available routs by using the `'only' => []` mapping, or you can specify the list of missing routes by using the `'except' => []` mapping.
+
+```php
+Route::resource('jobs', JobController::class, [
+    'only' => ['index', 'show', 'create', 'store']
+]);
+```
+
+```php
+Route::resource('jobs', JobController::class, [
+    'except' => ['edit']
+]);
+```
+
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user
