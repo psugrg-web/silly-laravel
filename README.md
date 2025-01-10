@@ -150,9 +150,7 @@ Execute `php artisan migrate` to run all migrations. This will re-configure your
 
 The *Eloquent* ORM is used to define **models**[^2] for our application.
 
-> [!NOTE]
->
-> This section is based on [this laravel tutorial](https://youtu.be/gHQ-OT8V5VU?si=s9XWPEKoWUUaNZJx).
+> [Video](https://youtu.be/gHQ-OT8V5VU?si=s9XWPEKoWUUaNZJx).
 >
 > Example object is defined in [Job.php](./app/app/Models/Job.php) file.
 >
@@ -311,9 +309,7 @@ Use `delete()` method on the entry object to delete it `$job->delete()`.
 
 ### Model Factories
 
-> [!NOTE]
->
-> This section is based on the [Model Factories tutorial](https://youtu.be/9O_WD5zQGxM?si=xK2WZc3FqMiXY7Q7)
+> [Video](https://youtu.be/9O_WD5zQGxM?si=xK2WZc3FqMiXY7Q7)
 
 The *model factory* can be used to quickly scaffold example data. This is a useful tool to quickly create a bunch of fake data (like 100 fake users).
 
@@ -400,9 +396,7 @@ App\Models\Job::factory(10)->create()
 
 ### Eloquent relationships
 
-> [!NOTE]
->
-> This section is based on the [Two Key Eloquent Relationship Types](https://youtu.be/9ETUz-cgXI4?si=BjRkN0mSowmoDFZ2)
+> [Video](https://youtu.be/9ETUz-cgXI4?si=BjRkN0mSowmoDFZ2)
 
 Eloquent relationships are a vay of handling relations between models (DB objects).
 
@@ -481,9 +475,7 @@ This will return the *Laravel* collection object containing the list of all *Job
 
 ### Pivot tables
 
-> [!NOTE]
->
-> This section is based on the [Pivot Tables and BelongsToMany Relationships](https://youtu.be/x1UCiE0hZiw?si=lX4bOvKI8o9pQObe)
+> [Video](https://youtu.be/x1UCiE0hZiw?si=lX4bOvKI8o9pQObe)
 
 Pivot table connects two other tables logically. In case of this example project you can connect *jobs* with *tags* via the pivot table.
 
@@ -599,9 +591,7 @@ The example above makes a new table `job_tag` and adds an entry containing the f
 
 ### N+1 problem
 
-> [!NOTE]
->
-> This section is based on the [Eager Loading and the N+1 Problem](https://youtu.be/gaW9KODumUg?si=jR6xCcZu_lsiS1ue)
+> [Video](https://youtu.be/gaW9KODumUg?si=jR6xCcZu_lsiS1ue)
 
 The N+1 problem is often caused by the not optimal number of queries to database related to lazy loading mechanism in *Eloquent*. It will try to not to load anything more than it currently needs.
 
@@ -650,9 +640,7 @@ After disabling lazy-loading, *Laravel* will warn you every time you implement s
 
 ### Pagination
 
-> [!NOTE]
->
-> This section is based on the [All You Need to Know About Pagination](https://youtu.be/oLy1uXU1q7c?si=NMg_vKJ2pakoW7yN)
+> [Video](https://youtu.be/oLy1uXU1q7c?si=NMg_vKJ2pakoW7yN)
 
 [Pagination](https://en.wikipedia.org/wiki/Pagination), also known as paging, is the process of dividing a document into discrete pages, either electronic pages or printed pages.
 
@@ -685,9 +673,7 @@ To add links in the page, you can just add `{{ $jobs->links() }}` in your blade 
 
 ### Editing defalut *Laravel* views
 
-> [!NOTE]
->
-> This section is based on the [All You Need to Know About Pagination](https://youtu.be/oLy1uXU1q7c?si=NMg_vKJ2pakoW7yN)
+> [Video](https://youtu.be/oLy1uXU1q7c?si=NMg_vKJ2pakoW7yN)
 
 In case you don't use the [Tailwind CSS](https://tailwindcss.com/), which is assumed by *Laravel* to be the default style engine, you must edit *Laravel* views manually. You can select other style engine or just use your own style and build view manually.
 
@@ -729,9 +715,7 @@ public function boot(): void
 
 ### Database seeders
 
-> [!NOTE]
->
-> This section is based on the [Understanding Database Seeders](https://youtu.be/wYLkf75lpT8?si=DT2vyAGoCeTuo6gj)
+> [Video](https://youtu.be/wYLkf75lpT8?si=DT2vyAGoCeTuo6gj)
 
 Database seeders are another way of populating the database with fake data. Hovewer, they can populate not only one collection, they can populate the entire DB.
 
@@ -763,9 +747,7 @@ To run seeder in isolation use `php artisan db:seed --class=JobSeeder` (where `J
 
 ### Wildcard routes
 
-> [!NOTE]
->
-> This section is based on the [Forms and CSRF Explained (with Examples)](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
+> [Video](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
 
 Wildcard routes are routs that can get any parameter as an input and process it in a dedicated view.
 
@@ -786,9 +768,7 @@ The code above creates a route to a specific *job* of the *id* provided in {id}.
 
 ### Folders structure & naming convention
 
-> [!NOTE]
->
-> This section is based on the [Forms and CSRF Explained (with Examples)](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
+> [Video](https://youtu.be/pcZEC_AkZeA?si=CcGwuYoNhZlj8KLw)
 
 General convention for views is to name the folder with the name of the view it represents i.e. `jobs` folder will contain views related to displaying jobs. Files (views) should be named after the action they're performing. i.e. `index.blade.php` to display the list of jobs, `show.blade.php` for displaying a single job, `create.blade.php` for creating a new job entry etc.
 
@@ -865,6 +845,90 @@ Instead of printing all errors in one go, you can print a specific error, relate
 ```
 
 The example above will print only error related to the `title` tag.
+
+### Patch & Delete requests
+
+> [Video](https://youtu.be/syx1tWSZbL8?si=Yc2qbRCADIvcop5n)
+
+The *Patch* and *Delete* requests are not automatically handled by the web browser. They are added by the *Laravel* framework on top of existing native mechanisms.
+
+> [!NOTE]
+>
+> Web browsers natively supports only *get* and *put* requests.
+
+#### Patch
+
+##### Patch handling in the routes file
+
+Use *patch* request in the routes file to handle the update request of a DB entry
+
+```php
+Route::patch('/jobs/{id}', function ($id) {
+    request()->validate([
+        'title' => ['required', 'min:3'],
+        'salary' => ['required']
+    ]);
+
+    // Authorize (not shown in this example)
+
+    $job = Job::findOrFail($id);
+
+    $job->update([
+        'title' => request('title'),
+        'salary' => request('salary'),
+    ]);
+
+    // Redirect to the job page
+    return redirect('/jobs/' . $job->id);
+});
+```
+
+> [!NOTE]
+>
+> The `findOrFail()` method will fail when requested object is not found. The *Laravel* will redirect automatically to the error page.
+
+##### Patch handling in the view file
+
+Since web browsers don't natively support the *patch* request, me must use a tweaked *post* request instead, to satisfy the browser and at the same time pass the information that this is actually a *patch* request to the route file (*Laravel* framework). This is done by using the `@method('PATCH')` directive.
+
+```html
+<form method="POST" action="/jobs/{{ $job->id }}">
+    @csrf
+    @method('PATCH')
+```
+
+#### Delete handling in the routes file
+
+Use *delete* request in the routes file to handle the delete request of an entry
+
+```php
+Route::delete('/jobs/{id}', function ($id) {
+
+    // authorize (Not shown in this example)
+
+    $job = Job::findOrFail($id)->delete();
+
+    return redirect('/jobs');
+});
+```
+
+##### Delete handling in the view file
+
+Since web browsers don't natively support the *delete* request, me must use a tweaked *post* request instead, to satisfy the browser and at the same time pass the information that this is actually a *delete* request to the route file (*Laravel* framework). This is done by using the `@method('DELETE')` directive.
+
+```html
+<div>
+    <nav><button form="delete-form">Delete Job</button></nav>
+</div>
+<form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="hidden">
+    @csrf
+    @method('DELETE')
+</form>
+```
+
+> [!TIP]
+>
+> Note that the *button* doesn't need to be within the *form*, it can be anywhere on the page. Note also that the form is *hidden*.
 
 ## Notes
 
