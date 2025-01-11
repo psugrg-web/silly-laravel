@@ -4,10 +4,6 @@
     </x-slot:heading>
 
     <div>
-        <nav><button class="danger" form="delete-form">Delete Job</button></nav>
-    </div>
-
-    <div>
         <form method="POST" action="/jobs/{{ $job->id }}">
             @csrf
             @method('PATCH')
@@ -39,6 +35,12 @@
             </p>
 
         </form>
+    </div>
+
+    <div>
+        <hr>
+        <i class="danger">Danger</i>
+        <nav><button class="danger" form="delete-form">Delete Job</button></nav>
     </div>
 
     <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="hidden">

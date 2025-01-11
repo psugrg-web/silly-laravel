@@ -145,22 +145,18 @@ nav>a {
 }
 nav button.danger,
 nav>a.danger{
-    background-color: hsl(from var(--accent-color-danger) h s l / 40%);
     color: var(--text-color);
 }
 nav button.caution,
 nav>a.caution{
-    background-color: hsl(from var(--accent-color-caution) h s l / 40%);
     color: var(--text-color);
 }
 nav button.safe,
 nav>a.safe{
-    background-color: hsl(from var(--accent-color-safe) h s l / 40%);
     color: var(--text-color);
 }
 nav button.info,
 nav>a.info{
-    background-color: hsl(from var(--accent-color-info) h s l / 40%);
     color: var(--text-color);
 }
 nav button:hover,
