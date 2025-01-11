@@ -63,6 +63,19 @@ The configuration is stored in the `.env` file inside the `app` directory.
 >
 > Update the configuration file when pushed to production (like i.w. the `LOG_LEVEL=debug` entry in the `.env` file)
 
+### Laravel starter kits
+
+> [Video](https://youtu.be/CtgVe-Q6KIY?si=G6b55kK5vL30PVJ6)
+> [Laravel docs](https://laravel.com/docs/11.x/starter-kits#main-content)
+
+Starter kits are intended to be used at the start of a new project. They will prepare the simple starting project for you. This includes the user management and authentication!
+
+From *Laravel* documentation:
+
+> Laravel Breeze is a minimal, simple implementation of all of Laravel's authentication features, including login, registration, password reset, email verification, and password confirmation. In addition, Breeze includes a simple "profile" page where the user may update their name, email address, and password.
+
+This could could probably be a good starting point for creating new applications (at least at the beginning).
+
 ### Laravel Debug Bar
 
 Debug bar is helps you debug your *Laravel* project. Find details [on the github page](https://github.com/barryvdh/laravel-debugbar).
