@@ -10,7 +10,11 @@
     --light-mode-bg-color: #ededf0;
     --light-mode-bg-color-alt: #e6e8e9;
     --light-mode-text-color: #1f1f1f;
-    --light-mode-text-color-red: #e91010;
+    
+    --light-mode-accent-info: #1182ce;
+    --light-mode-accent-safe: #00a028;
+    --light-mode-accent-caution: #dd8c12;
+    --light-mode-accent-danger: #e91010;
     /* END Configuration variables */
 }
 
@@ -19,7 +23,10 @@
     --bg-color-highlight: hsl(from var(--light-mode-text-color) h s l / 10%);
     --bg-color-alt: var(--light-mode-bg-color-alt);
     --text-color: var(--light-mode-text-color);
-    --text-color-red: var(--light-mode-text-color-red);
+    --accent-color-danger: var(--light-mode-accent-danger);
+    --accent-color-caution: var(--light-mode-accent-caution);
+    --accent-color-safe: var(--light-mode-accent-safe);
+    --accent-color-info: var(--light-mode-accent-info);
 }
 
 .dark-mode {
@@ -27,21 +34,31 @@
     --bg-color-highlight: hsl(from var(--light-mode-bg-color) h s l / 10%);
     --bg-color-alt: var(--light-mode-bg-color-alt);
     --text-color: var(--light-mode-bg-color);
-    --text-color-red: var(--light-mode-text-color-red);
+    --accent-color-danger: var(--light-mode-accent-danger);
+    --accent-color-caution: var(--light-mode-accent-caution);
+    --accent-color-safe: var(--light-mode-accent-safe);
+    --accent-color-info: var(--light-mode-accent-info);
 }
 
 * {
-    box-sizing: border-box;
-    /* This makes even spacing on the edge of the screen */
+    box-sizing: border-box; /* This makes even spacing on the edge of the screen */
     font-family: "Montserrat", sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.danger {
+    color: var(--accent-color-danger);
+}
+.caution {
+    color: var(--accent-color-caution);
+}
+.safe {
+    color: var(--accent-color-safe);
+}
+.info {
+    color: var(--accent-color-info);
+}
+
+h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
@@ -83,7 +100,7 @@ div {
     padding: 1ch;
 }
 
-nav,
+nav, 
 nav ul {
     gap: 1rem;
     display: flex;
@@ -126,12 +143,51 @@ nav>a {
     transition: all 0.3s ease 0s;
     background-color: var(--bg-color);
 }
-
+nav button.danger,
+nav>a.danger{
+    background-color: hsl(from var(--accent-color-danger) h s l / 40%);
+    color: var(--text-color);
+}
+nav button.caution,
+nav>a.caution{
+    background-color: hsl(from var(--accent-color-caution) h s l / 40%);
+    color: var(--text-color);
+}
+nav button.safe,
+nav>a.safe{
+    background-color: hsl(from var(--accent-color-safe) h s l / 40%);
+    color: var(--text-color);
+}
+nav button.info,
+nav>a.info{
+    background-color: hsl(from var(--accent-color-info) h s l / 40%);
+    color: var(--text-color);
+}
 nav button:hover,
 nav>a:hover {
     background-color: var(--text-color);
     color: var(--bg-color);
     transition: all 0.3s ease 0s;
+}
+nav button.danger:hover,
+nav>a.danger:hover{
+    background-color: var(--accent-color-danger);
+    color: var(--text-color);
+}
+nav button.caution:hover,
+nav>a.caution:hover{
+    background-color: var(--accent-color-caution);
+    color: var(--text-color);
+}
+nav button.safe:hover,
+nav>a.safe:hover{
+    background-color: var(--accent-color-safe);
+    color: var(--text-color);
+}
+nav button.info:hover,
+nav>a.info:hover{
+    background-color: var(--accent-color-info);
+    color: var(--text-color);
 }
 
 header nav button,
@@ -139,7 +195,6 @@ header nav>a {
     background-color: var(--top-bar-color);
     border-color: var(--top-bar-text-color);
 }
-
 header nav button:hover,
 header nav>a:hover {
     background-color: var(--top-bar-text-color);
@@ -186,10 +241,6 @@ tr:hover {
     background-color: var(--bg-color-highlight);
 }
 
-form span {
-    color: var(--text-color-red);
-}
-
 /* Mobile Navigation Bar */
 
 .primary-nav-toggle {
@@ -203,7 +254,7 @@ form span {
         border: none;
     }
 
-    header>img {
+    header > img {
         display: none;
     }
 
@@ -218,7 +269,7 @@ form span {
         text-align: center;
     }
 
-    .primary-nav {
+    .primary-nav{
         padding-top: 5.5rem;
         inset: 0 0 0 0;
         background: var(--top-bar-color);
@@ -231,7 +282,7 @@ form span {
         transform: translateY(0%);
     }
 
-    .primary-nav,
+    .primary-nav, 
     .primary-nav ul {
         flex-direction: column;
     }

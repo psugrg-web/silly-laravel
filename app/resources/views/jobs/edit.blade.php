@@ -4,7 +4,7 @@
     </x-slot:heading>
 
     <div>
-        <nav><button form="delete-form">Delete Job</button></nav>
+        <nav><button class="danger" form="delete-form">Delete Job</button></nav>
     </div>
 
     <div>
@@ -17,10 +17,8 @@
             <input id="title" name="title" type="text" placeholder="Shift leader" value="{{ $job->title }}"
                 required>
             @error('title')
-                <p>
-                    <span>
-                        {{ $message }}
-                    </span>
+                <p class="danger">
+                    {{ $message }}
                 </p>
             @enderror
 
@@ -28,10 +26,8 @@
             <input id="salary" name="salary" type="text" placeholder="$50,000 Per Year"
                 value="{{ $job->salary }}" required>
             @error('salary')
-                <p>
-                    <span>
-                        {{ $message }}
-                    </span>
+                <p class="danger">
+                    {{ $message }}
                 </p>
             @enderror
 
