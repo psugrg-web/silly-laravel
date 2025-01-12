@@ -95,7 +95,6 @@ button {
 
 div {
     color: var(--text-color);
-    background-color: var(--bg-color);
     max-width: 80ch;
     margin: auto;
     padding: 1ch;
