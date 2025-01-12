@@ -95,9 +95,26 @@ button {
 
 div {
     color: var(--text-color);
+    background-color: var(--bg-color);
     max-width: 80ch;
     margin: auto;
     padding: 1ch;
+}
+div.danger{
+    background: hsl(from var(--accent-color-danger) h s l / 10%);
+    color: var(--text-color);
+}
+div.caution{
+    background: hsl(from var(--accent-color-caution) h s l / 10%);
+    color: var(--text-color);
+}
+div.safe{
+    background: hsl(from var(--accent-color-safe) h s l / 10%);
+    color: var(--text-color);
+}
+div.info{
+    background: hsl(from var(--accent-color-info) h s l / 10%);
+    color: var(--text-color);
 }
 
 nav, 
@@ -241,6 +258,12 @@ tr:hover {
 
 .primary-nav-toggle {
     display: none;
+}
+
+hr {
+    background: var(--text-color);
+    height: 1px;
+    border-width: 0;
 }
 
 @media only screen and (max-width: 80ch) {

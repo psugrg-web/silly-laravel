@@ -37,10 +37,10 @@
         </form>
     </div>
 
-    <div>
-        <hr>
-        <i class="danger">Danger</i>
+    <div class="danger">
+        <i class="danger">Danger zone</i>
         <nav><button class="danger" form="delete-form">Delete Job</button></nav>
+        <p></p>
     </div>
 
     <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="hidden">
