@@ -214,6 +214,7 @@ header nav>a:hover {
 }
 
 input,
+select,
 textarea {
     width: 100%;
     padding-top: 0.8vh;
@@ -223,6 +224,11 @@ textarea {
     border-radius: 4px;
     border: 1px solid var(--text-color);
     background-color: var(--bg-color-alt);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;
 }
 
 textarea {
