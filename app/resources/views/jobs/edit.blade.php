@@ -4,37 +4,10 @@
     </x-slot:heading>
 
     <div>
-        <form method="POST" action="/jobs/{{ $job->id }}">
-            @csrf
-            @method('PATCH')
-
-            <!-- NOTE: the name is important here since it's used to automatically generate a POST request -->
-            <label for="title">Title</label>
-            <input id="title" name="title" type="text" placeholder="Shift leader" value="{{ $job->title }}"
-                required>
-            @error('title')
-                <p class="danger">
-                    {{ $message }}
-                </p>
-            @enderror
-
-            <label for="salary">Salary</label>
-            <input id="salary" name="salary" type="text" placeholder="$50,000 Per Year"
-                value="{{ $job->salary }}" required>
-            @error('salary')
-                <p class="danger">
-                    {{ $message }}
-                </p>
-            @enderror
-
-            <p>
-            <nav>
-                <button type="submit">Update</button>
-                <a href="/jobs/{{ $job->id }}">Cancel</a>
-            </nav>
-            </p>
-
-        </form>
+        <x-form action='/jobs/{{ $job->id }}' labelAbort='Cancel' labelConfirm='Update'>
+            <x-form.entry name="title" type="text" value="{{ $job->title }}" required>Title</x-form.entry>
+            <x-form.entry name="salary" type="text" value="{{ $job->salary }}" required>Salary</x-form.entry>
+        </x-form>
     </div>
 
     <div class="danger">

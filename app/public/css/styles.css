@@ -94,6 +94,7 @@ button {
 }
 
 div {
+    border-radius: 4px;
     color: var(--text-color);
     max-width: 80ch;
     margin: auto;

@@ -8,44 +8,10 @@
     </x-slot:description>
 
     <div>
-        <form method="POST" action="/jobs">
-            @csrf
-
-            <!-- NOTE: the name is important here since it's used to automatically generate a POST request -->
-            <label for="title">Title</label>
-            <input id="title" name="title" type="text" placeholder="Shift leader" value="" required>
-            @error('title')
-                <p>
-                    <span>
-                        {{ $message }}
-                    </span>
-                </p>
-            @enderror
-
-            <label for="salary">Salary</label>
-            <input id="salary" name="salary" type="text" placeholder="$50,000 Per Year" value="" required>
-            @error('salary')
-                <p>
-                    <span>
-                        {{ $message }}
-                    </span>
-                </p>
-            @enderror
-
-            {{-- @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <span>{{ $error }}</span>
-                @endforeach
-            @endif --}}
-
-            <p>
-            <nav>
-                <button type="submit">Save</button>
-                <a href="/jobs">Cancel</a>
-            </nav>
-            </p>
-
-        </form>
+        <x-form action='/jobs' labelAbort='Cancel' labelConfirm='Save'>
+            <x-form.entry name="title" type="text" placeholder="Software developer" required>Title</x-form.entry>
+            <x-form.entry name="salary" type="text" placeholder="$50,000 Per Year" required>Salary</x-form.entry>
+        </x-form>
     </div>
 
     </x-loyout>
