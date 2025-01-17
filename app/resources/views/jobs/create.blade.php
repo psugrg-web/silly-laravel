@@ -8,7 +8,7 @@
     </x-slot:description>
 
     <div>
-        <x-form action='/jobs' labelAbort='Cancel' labelConfirm='Save'>
+        <x-form method="POST" action='/jobs' labelAbort='Cancel' labelConfirm='Save'>
             <x-form.entry name="title" type="text" placeholder="Software developer" required>Title</x-form.entry>
             <x-form.entry name="salary" type="text" placeholder="$50,000 Per Year" required>Salary</x-form.entry>
         </x-form>

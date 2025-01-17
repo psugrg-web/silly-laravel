@@ -1,13 +1,13 @@
-@props(['action', 'labelConfirm', 'labelAbort'])
+@props(['method', 'action', 'labelConfirm', 'labelAbort'])
 
-<form method="POST" action="{{ $action }}">
+<form method="{{ $method }}" action="{{ $action }}">
     @csrf
 
     {{ $slot }}
 
     <p>
     <nav>
-        <x-form-button>{{ $labelConfirm }}</x-form-button>
+        <button type="submit">{{ $labelConfirm }}</button>
         <a href="{{ $action }}">{{ $labelAbort }}</a>
     </nav>
     </p>
