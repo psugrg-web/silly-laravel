@@ -98,6 +98,7 @@ div {
     color: var(--text-color);
     max-width: 80ch;
     margin: auto;
+    margin-top: 2px;
     padding: 1ch;
 }
 div.danger{
