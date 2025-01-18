@@ -986,7 +986,7 @@ Name your controller by adding the name of the controller and add `Controller` a
 
 Select `Empty` as a starting point, or read the documentation to learn more.
 
-In the controller class you can implement the logic for handling requests (instead of keepin it all in the route file).
+In the controller class you can implement the logic for handling requests (instead of keeping it all in the route file).
 
 Routes file:
 
@@ -1009,6 +1009,8 @@ class JobController extends Controller
     }
 }
 ```
+
+Note that the `Route::get` function takes two parameters in this case: first is the route and second is an array where the first element is the controller class and second is the name of the function in that controller that should handle the request.
 
 ### Route view
 
@@ -1110,6 +1112,20 @@ Route::resource('jobs', JobController::class, [
 Route::resource('jobs', JobController::class, [
     'except' => ['edit']
 ]);
+```
+
+### How to check authentication status
+
+To check the authentication status, use `@auth` or `@guest` blade directives. First can be used to display content that should be available for the authenticated user. Second one can be used to display content that should be available for a guest user.
+
+```php
+@guest
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+@endguest
+@auth
+    <a href="/logout">Log Out</a>
+@endauth
 ```
 
 ## Notes

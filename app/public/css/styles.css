@@ -3,13 +3,13 @@
 :root {
     /* Configuration variables */
     /* Top Bar */
-    --top-bar-color: black;
-    --top-bar-text-color: #edf0f1;
+    --top-bar-color: rgb(0, 71, 119);
+    --top-bar-text-color: #f1f7ff;
 
     /* Content Light Mode */
-    --light-mode-bg-color: #ededf0;
-    --light-mode-bg-color-alt: #e6e8e9;
-    --light-mode-text-color: #1f1f1f;
+    --light-mode-bg-color: #f7f7ff;
+    --light-mode-bg-color-alt: #ffffff;
+    --light-mode-text-color: #282833;
     
     --light-mode-accent-info: #1182ce;
     --light-mode-accent-safe: #00a028;
@@ -137,7 +137,8 @@ nav a {
     text-decoration: none;
 }
 
-nav ul a:hover {
+nav ul a:hover,
+nav ul a.active {
     text-decoration: underline;
 }
 
@@ -177,27 +178,37 @@ nav button.info,
 nav>a.info{
     color: var(--text-color);
 }
+nav button.active,
+nav>a.active,
 nav button:hover,
 nav>a:hover {
     background-color: var(--text-color);
     color: var(--bg-color);
     transition: all 0.3s ease 0s;
 }
+nav button.danger.active,
+nav>a.danger.active,
 nav button.danger:hover,
 nav>a.danger:hover{
     background-color: var(--accent-color-danger);
     color: var(--text-color);
 }
+nav button.caution.active,
+nav>a.caution.active,
 nav button.caution:hover,
 nav>a.caution:hover{
     background-color: var(--accent-color-caution);
     color: var(--text-color);
 }
+nav button.safe.active,
+nav>a.safe.active,
 nav button.safe:hover,
 nav>a.safe:hover{
     background-color: var(--accent-color-safe);
     color: var(--text-color);
 }
+nav button.info.active,
+nav>a.info.active,
 nav button.info:hover,
 nav>a.info:hover{
     background-color: var(--accent-color-info);
@@ -209,10 +220,46 @@ header nav>a {
     background-color: var(--top-bar-color);
     border-color: var(--top-bar-text-color);
 }
+header nav button.danger,
+header nav>a.danger {
+    color: var(--top-bar-text-color);
+}
+header nav button.caution,
+header nav>a.caution {
+    color: var(--top-bar-text-color);
+}
+header nav button.safe,
+header nav>a.safe {
+    color: var(--top-bar-text-color);
+}
+header nav button.info,
+header nav>a.info {
+    color: var(--top-bar-text-color);
+}
+header nav button.active,
+header nav>a.active,
 header nav button:hover,
 header nav>a:hover {
     background-color: var(--top-bar-text-color);
     color: var(--top-bar-color);
+}
+header nav button.danger.active,
+header nav>a.danger.active,
+header nav button.danger:hover,
+header nav>a.danger:hover,
+header nav button.caution.active,
+header nav>a.caution.active,
+header nav button.caution:hover,
+header nav>a.caution:hover,
+header nav button.safe.active,
+header nav>a.safe.active,
+header nav button.safe:hover,
+header nav>a.safe:hover,
+header nav button.info.active,
+header nav>a.info.active,
+header nav button.info:hover,
+header nav>a.info:hover {
+    color: var(--top-bar-text-color);
 }
 
 input,
