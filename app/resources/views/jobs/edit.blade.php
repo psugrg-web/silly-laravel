@@ -4,7 +4,8 @@
     </x-slot:heading>
 
     <div>
-        <x-form method="POST" action='/jobs/{{ $job->id }}' labelAbort='Cancel' labelConfirm='Update'>
+        <x-form method="POST" action='/jobs/{{ $job->id }}' abort='/jobs/{{ $job->id }}' label-abort='Cancel'
+            label-confirm='Update'>
             @method('PATCH')
             <x-form.entry name="title" type="text" value="{{ $job->title }}" required>Title</x-form.entry>
             <x-form.entry name="salary" type="text" value="{{ $job->salary }}" required>Salary</x-form.entry>
