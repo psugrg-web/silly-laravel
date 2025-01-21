@@ -3,13 +3,13 @@
 :root {
     /* Configuration variables */
     /* Top Bar */
-    --top-bar-color: rgb(0, 71, 119);
+    --top-bar-color: rgb(20, 28, 37);
     --top-bar-text-color: #f1f7ff;
 
     /* Content Light Mode */
-    --light-mode-bg-color: #f7f7ff;
+    --light-mode-bg-color: #f0f2f7;
     --light-mode-bg-color-alt: #ffffff;
-    --light-mode-text-color: #282833;
+    --light-mode-text-color: #17171b;
     
     --light-mode-accent-info: #1182ce;
     --light-mode-accent-safe: #00a028;
@@ -179,7 +179,10 @@ nav>a.info{
     color: var(--text-color);
 }
 nav button.active,
-nav>a.active,
+nav>a.active{
+    color: var(--bg-color);
+    background: hsl(from var(--text-color) h s l / 70%);
+}
 nav button:hover,
 nav>a:hover {
     background-color: var(--text-color);
@@ -187,28 +190,40 @@ nav>a:hover {
     transition: all 0.3s ease 0s;
 }
 nav button.danger.active,
-nav>a.danger.active,
+nav>a.danger.active{
+    background: hsl(from var(--accent-color-danger) h s l / 70%);
+    color: var(--text-color);
+}
 nav button.danger:hover,
 nav>a.danger:hover{
     background-color: var(--accent-color-danger);
     color: var(--text-color);
 }
 nav button.caution.active,
-nav>a.caution.active,
+nav>a.caution.active{
+    background: hsl(from var(--accent-color-caution) h s l / 70%);
+    color: var(--text-color);
+}
 nav button.caution:hover,
 nav>a.caution:hover{
     background-color: var(--accent-color-caution);
     color: var(--text-color);
 }
 nav button.safe.active,
-nav>a.safe.active,
+nav>a.safe.active{
+    background: hsl(from var(--accent-color-safe) h s l / 70%);
+    color: var(--text-color);
+}
 nav button.safe:hover,
 nav>a.safe:hover{
     background-color: var(--accent-color-safe);
     color: var(--text-color);
 }
 nav button.info.active,
-nav>a.info.active,
+nav>a.info.active{
+    background: hsl(from var(--accent-color-info) h s l / 70%);
+    color: var(--text-color);
+}
 nav button.info:hover,
 nav>a.info:hover{
     background-color: var(--accent-color-info);
@@ -237,7 +252,10 @@ header nav>a.info {
     color: var(--top-bar-text-color);
 }
 header nav button.active,
-header nav>a.active,
+header nav>a.active {
+    background: hsl(from var(--top-bar-text-color) h s l / 70%);
+    color: var(--top-bar-color);
+}
 header nav button:hover,
 header nav>a:hover {
     background-color: var(--top-bar-text-color);

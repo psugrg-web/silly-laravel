@@ -2,10 +2,6 @@
 
 <label for="{{ $name }}">{{ $slot }}</label>
 <input {{ $attributes->merge(['name' => $name]) }}>
-@error('{{ $name }}')
-    <p>
-        <span>
-            {{ $message }}
-        </span>
-    </p>
+@error($name)
+    <p class="danger">{{ $message }}</p>
 @enderror

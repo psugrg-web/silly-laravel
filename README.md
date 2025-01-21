@@ -22,7 +22,6 @@ docker compose build && docker compose up -d
 ```
 
 > [!NOTE]
->
 > Visit [silly-damp](https://github.com/psugrg-web/silly-damp) for more information on the docker image for this project.
 
 ### Initialize the application
@@ -48,7 +47,6 @@ php artisan migrate
 ```
 
 > [!TIP]
->
 > Navigate to [localhost:8080](localhost:8080) in your browser to access the application, and [localhost:8081](localhost:8081) to access *phpMyAdmin*.
 
 [^1]: This should be done even if there's an automatic Bash `UID` read only variable present since it is ignored by the docker.
@@ -60,7 +58,6 @@ php artisan migrate
 The configuration is stored in the `.env` file inside the `app` directory.
 
 > [!IMPORTANT]
->
 > Update the configuration file when pushed to production (like i.w. the `LOG_LEVEL=debug` entry in the `.env` file)
 
 ### Laravel starter kits
@@ -81,7 +78,6 @@ This could could probably be a good starting point for creating new applications
 Debug bar is helps you debug your *Laravel* project. Find details [on the github page](https://github.com/barryvdh/laravel-debugbar).
 
 > [!IMPORTANT]
->
 > Remember to disable debug function on production `APP_DEBUG=false` in the `.env` file.
 
 ### Artisan
@@ -95,7 +91,6 @@ php artisan
 ```
 
 > [!IMPORTANT]
->
 > The *artisan* command is available *only* from the directory of your *Laravel* application. In this case it's the `/app` directory.
 
 ### Tinker
@@ -103,7 +98,6 @@ php artisan
 The *Artisan Tinker* is the *Laravel* environment you can use to access the *runtime* environment of your application.
 
 > [!TIP]
->
 > Use it as a playground where you can quickly test your ideas.
 
 Use `php artisan tinker` command to run it.
@@ -132,7 +126,6 @@ Migrations essentially are the automation to control your database. Use it to cr
 #### Reset DB and start from scratch
 
 > [!CAUTION]
->
 > This will destroy all entries in the DB, use it carefully!
 
 Execute `php artisan migrate:refresh` to drop all your entries and re-run all migrations.
@@ -172,7 +165,6 @@ The *Eloquent* ORM is used to define **models**[^2] for our application.
 #### Automatic model generation
 
 > [!NOTE]
->
 > Most likely this is the most useful way of creating models.
 
 The *Laravel* project comes with the `make:model` *artisan* utility that can be use to automatically create the model.
@@ -180,19 +172,16 @@ The *Laravel* project comes with the `make:model` *artisan* utility that can be 
 Use `php artisan make:model Comment` to create a new *model* named *Comment*. This will create a new file `app/Models/Comment.php` that will contain the *model*.
 
 > [!TIP]
->
 > The `artisan make:model` can automatically create not only the *model*, but also *migration*, *controller* and more.
 
 Use `php artisan make:model Post -m` to create new *model* named *Post* and a corresponding *migration*. This will create new files `app/Models/Post.php` and `database/migrations/2024_03_1234_create_posts_table.php` that will contain the *model* and the corresponding *migration*.
 
 > [!TIP]
->
 > Use `artisan help make:model` to learn more about this utility.
 
 #### Manual model generation
 
 > [!NOTE]
->
 > Most likely you'll never do it manually.
 
 Extend the `Model` class to create a new model.
@@ -203,7 +192,6 @@ class Item extends Model {
 ```
 
 > [!TIP]
->
 > With *Eloquent* you can access tables and fields in the DB without a need of implementing a complete structure of the model in the code. It'll be created for you by the *Eloquent*.
 
 [^2]: Model as in the Model View Controller
@@ -211,7 +199,6 @@ class Item extends Model {
 #### Naming convention for automatic table name detection
 
 > [!IMPORTANT]
->
 > *Eloquent* can **automatically** get the name of the *table* in the DB from the name of the *model* class!
 
 If you want the *Eloquent* to automatically detect the name of the table in the DB, you must name your class accordingly to the naming convention:
@@ -221,7 +208,6 @@ If you want the *Eloquent* to automatically detect the name of the table in the 
 |my_items        | MyItem                  |
 
 > [!IMPORTANT]
->
 > Note the **s** in the table name and the lack of it in the class name!
 >
 > Eloquent uses the *CamelCase* notation and expects the table to use the *hungarian notation*.
@@ -249,7 +235,6 @@ dd($jobs[0]->title);
 The code above will access the `title` field in the first entry in the table.
 
 > [!IMPORTANT]
->
 > In this case, the naming convention requires the name of the field in the table to match exactly the name of the field in the code.
 
 #### Fields mass assignments
@@ -289,7 +274,6 @@ protected $guarded = ['employer_id'];
 ```
 
 > [!WARNING]
->
 > Defining the empty `$guarded` field will **disable** the mass assignment protection feature.
 
 #### Finding specific record
@@ -327,7 +311,6 @@ Use `delete()` method on the entry object to delete it `$job->delete()`.
 The *model factory* can be used to quickly scaffold example data. This is a useful tool to quickly create a bunch of fake data (like 100 fake users).
 
 > [!NOTE]
->
 > Factories are located in the `database/factories` directory.
 
 To create a factory use `php artisan make:factory`.
@@ -339,7 +322,6 @@ php artisan make:factory JobFactory
 ```
 
 > [!TIP]
->
 > Use `php artisan help make:factory` to get extra details.
 
 To use that factory call `App\Models\Job::factory()->create()` in the *artisan tinker* tool.
@@ -367,7 +349,6 @@ The example above will create a user with an unverified email address.
 #### Relations to other models
 
 > [!TIP]
->
 > More on that in the [Eloquent relationships](#eloquent-relationships) chapter
 
 If your model has a relation to other models, you can reflect that in the factory by calling the factory of the other model.
@@ -448,7 +429,6 @@ public function employer()
 This method uses the built in `belongsTo()` method that will ask *Eloquent* to perform a new query to search the database for the object referred by the ID stored in the field defined by the migration.
 
 > [!IMPORTANT]
->
 > The name of the getter function **must** follow the name of the class it relates to. I.e. for the class named ***Employer*** it must be named ***employer***; for the class named ***JobCategory*** it must be named ***jobCategory***.
 
 In order to use it you must call it as if you were accessing a property `$job->employer`, not a function call.
@@ -483,7 +463,6 @@ $employer->jobs;
 This will return the *Laravel* collection object containing the list of all *Jobs* related to that *Employer*.
 
 > [!TIP]
->
 > Remember to access it as if it was a property `$employer->jobs`, otherwise it will not work correctly.
 
 ### Pivot tables
@@ -493,7 +472,6 @@ This will return the *Laravel* collection object containing the list of all *Job
 Pivot table connects two other tables logically. In case of this example project you can connect *jobs* with *tags* via the pivot table.
 
 > [!TIP]
->
 > Pivot table can have it's ovn migration file or it can be integrated with the other migration. In our case it's integrated with the *tags* table migration.
 
 #### Belong-To-Many relation
@@ -538,7 +516,6 @@ class Job extends Model
 ```
 
 > [!NOTE]
->
 > In our case we must explicitly specify the `foreignPivotKey` and the `relatedPivotKey` since the name of the Job class is no following the convention and provides a custom name `job_listings` for the table.
 >
 > ```php
@@ -579,7 +556,6 @@ $tag->jobs()->attach(App\Models\Job::find(7));
 ```
 
 > [!IMPORTANT]
->
 > *Laravel* uses cache and will not reach for the new data when using the standard `$tag->jobs`. In order to invalidate the cache and force *Laravel* to refetch the data from DB, use `$tag->jobs()->get()`.
 
 ### SQL constraints
@@ -599,7 +575,6 @@ Schema::create('job_tag', function (Blueprint $table) {
 The example above makes a new table `job_tag` and adds an entry containing the foreign ID of the *Tag* class. It also creates a constrain that it should cascade the delete process. This way, if a `tag` entry will be deleted, the corresponding `job_tag` entry will also be deleted.
 
 > [!IMPORTANT]
->
 > Please make sure that the constraints are enabled in your DB engine. They are enabled by default in *MySQL* but disabled in *SQLite*. To enable it in *SQLite*, call `PRAGMA foreign_keys=on` in your *SQLite* client app.
 
 ### N+1 problem
@@ -629,7 +604,6 @@ The code above will create only two queries: one for loading all jobs and second
 It's possible to disable *lazy loading* globally. Some developers do that but it seems like there's still a discussion that has no conclusion.
 
 > [!IMPORTANT]
->
 > You should choose either the lazy-loading mechanism should be enabled or disabled in your project mindfully. If you choose to keep it, you should be aware of the N+1 problem.
 
 To disable lazy-loading, go to the `AppServiceProvider.php` file located in the `/app/Providers` directory.
@@ -648,7 +622,6 @@ public function boot(): void
 After disabling lazy-loading, *Laravel* will warn you every time you implement something that will trigger lazy-loading mechanism, forcing you to implement the eager-loading instead.
 
 > [!TIP]
->
 > The `AppServiceProvider.php` file is used to configure the application.
 
 ### Pagination
@@ -669,7 +642,6 @@ Route::get('/jobs', function () {
 ```
 
 > [!TIP]
->
 > You can specify the order the elements will be provided to the paginator, i.e. `latest()` will provide the most recently changed entries first `$jobs = Job::with('employer')->latest()->paginate(3);`.
 
 To add links in the page, you can just add `{{ $jobs->links() }}` in your blade file containing a view.
@@ -681,7 +653,6 @@ To add links in the page, you can just add `{{ $jobs->links() }}` in your blade 
 ```
 
 > [!WARNING]
->
 > Laravel assumes that the application uses [Tailwind CSS](https://tailwindcss.com/). This is true also in case of the *pagination* functionality. *Laravel* will automatically assume that the tailwind CSS style is installed.
 
 ### Editing defalut *Laravel* views
@@ -691,7 +662,6 @@ To add links in the page, you can just add `{{ $jobs->links() }}` in your blade 
 In case you don't use the [Tailwind CSS](https://tailwindcss.com/), which is assumed by *Laravel* to be the default style engine, you must edit *Laravel* views manually. You can select other style engine or just use your own style and build view manually.
 
 > [!NOTE]
->
 > The *Laravel* views are not by default accessible to the developer. If you want to modify them, you must first publish them so that they are publicly available.
 
 To publish views use the `php artisan vendor:publish` command and select whatever component you want to publish. In our example it's the `Tag: laravel-pagination` view.
@@ -733,7 +703,6 @@ public function boot(): void
 Database seeders are another way of populating the database with fake data. Hovewer, they can populate not only one collection, they can populate the entire DB.
 
 > [!NOTE]
->
 > Database seeders are useful to set a desired state of the DB. It can be used to set a certain test conditions.
 
 Database seeders are located in the `app/database/seeders` path. You can find a default seeder in `DatabaseSeeder.php` file. To run it, use `php artisan db:seed` in your terminal.
@@ -745,7 +714,6 @@ php artisan migrate:fresh --seed
 ```
 
 > [!NOTE]
->
 > You can either extend the default seeder or create a new one. The new one can be a separate seeder or it can be included to the default seeder.
 
 #### Make seeder
@@ -755,7 +723,6 @@ Use `php artisan make:seeder` command to create a standalone seeder class.
 To run seeder in isolation use `php artisan db:seed --class=JobSeeder` (where `JobSeeder` is the name of the seeder class that you want to trigger).
 
 > [!TIP]
->
 > Isolated seeders can be used to prepare a specific state of the DB to perform a specific test.
 
 ### Wildcard routes
@@ -776,7 +743,6 @@ Route::get('/jobs/{id}', function ($id) {
 The code above creates a route to a specific *job* of the *id* provided in {id}. Note that it can accept anything hence it is a wildcard.
 
 > [!IMPORTANT]
->
 > Wildcard routs must be declared after more specific routes otherwise the specific route will never be called. The request will be consumed by the wildcard route.
 
 ### Folders structure & naming convention
@@ -794,7 +760,6 @@ General convention for views is to name the folder with the name of the view it 
 ```
 
 > [!TIP]
->
 > You can use `.` for folder separation instead of `/`, e.g. `jobs.index` instead of `jobs/index`.
 
 ### CSRF
@@ -805,7 +770,6 @@ General convention for views is to name the folder with the name of the view it 
 The [CSRF](https://pl.wikipedia.org/wiki/Cross-site_request_forgery)(Cross-site request forgery), also known as one-click attack or session riding and abbreviated as CSRF (sometimes pronounced sea-surf[1]) or XSRF, is a type of malicious exploit of a website or web application where unauthorized commands are submitted from a user that the web application trusts.
 
 > [!NOTE]
->
 > *Laravel* has a built-in mechanism that prevents that from happening
 
 When posting a form we must use a special CSRF token that validates the request in order for the POST request to be accepted by the *Laravel*. To request the token use the `@csrf` *Laravel* directive in the *form* body.
@@ -836,7 +800,6 @@ The code above will expect two entries: `title` and `salary`, both are required,
 Use `$errors` variable that contains errors (if any) to inform the user of any validation errors.
 
 > [!NOTE]
->
 > The `$errors` variable is **always** available, even if there are no errors.
 
 ```php
@@ -866,7 +829,6 @@ The example above will print only error related to the `title` tag.
 The *Patch* and *Delete* requests are not automatically handled by the web browser. They are added by the *Laravel* framework on top of existing native mechanisms.
 
 > [!NOTE]
->
 > Web browsers natively supports only *get* and *put* requests.
 
 #### Patch
@@ -897,7 +859,6 @@ Route::patch('/jobs/{id}', function ($id) {
 ```
 
 > [!NOTE]
->
 > The `findOrFail()` method will fail when requested object is not found. The *Laravel* will redirect automatically to the error page.
 
 ##### Patch handling in the view file
@@ -940,7 +901,6 @@ Since web browsers don't natively support the *delete* request, me must use a tw
 ```
 
 > [!TIP]
->
 > Note that the *button* doesn't need to be within the *form*, it can be anywhere on the page. Note also that the form is *hidden*.
 
 ### Route Model Binding
@@ -968,7 +928,6 @@ Route::get('/jobs/{job}', function (Job $job) {
 Pay attention to the change `id` -> `job`. By following the naming convention, *Laravel* can understand that you're trying to access a single entry in the DB. By using a type in a function parameter we instruct *Laravel* to use the *Job* class to find it.
 
 > [!TIP]
->
 > You can configure this functionality. More on that in the video or in Laravel documentation.
 
 ### Controller Classes
@@ -979,7 +938,6 @@ Pay attention to the change `id` -> `job`. By following the naming convention, *
 Create controller by using `php artisan make:controller`.
 
 > [!NOTE]
->
 > You can also do it when making a model by adding `-c` option to the `php artisan make:model` command.
 
 Name your controller by adding the name of the controller and add `Controller` at the end, e.g. `JobController`.
@@ -1097,7 +1055,6 @@ Route::controller(JobController::class)->group(function () {
 ```
 
 > [!IMPORTANT]
->
 > The `Route::resource` assumes that the controller has *index, create, show, store, edit, update* and *destroy* route handlers implemented!
 
 If you don't need all of these routes, you can specify a list of available routs by using the `'only' => []` mapping, or you can specify the list of missing routes by using the `'except' => []` mapping.
@@ -1114,6 +1071,31 @@ Route::resource('jobs', JobController::class, [
 ]);
 ```
 
+### Password Validation
+
+> [Video](https://youtu.be/M8Vfm7hxqXA?si=4_mdv93c6e4AH5a9)
+> [Laravel docs](https://laravel.com/docs/validation)
+
+You can use the build in function `validate` to automatically validate the request (as we did in previous forms)
+
+```php
+request()->validate([
+    'first_name' => ['required'],
+    'last_name' => ['required'],
+    'email' => ['required', 'email'],
+    'password' => ['required', Password::min(6), 'confirmed'],
+]);
+```
+
+Note that the `password` field has the `confirmed` parameter set. This informs the Laravel, that there's a field in the form with the password confirmation.
+
+```http
+<x-form.entry name="password" type="password" required>Password</x-form.entry>
+<x-form.entry name="password_confirmation" type="password" required>Confirm Password</x-form.entry>
+```
+
+It's important to use the naming convention here as well. Laravel expects that the confirmation entry will end with `_confirmation` postfix.
+
 ### How to check authentication status
 
 To check the authentication status, use `@auth` or `@guest` blade directives. First can be used to display content that should be available for the authenticated user. Second one can be used to display content that should be available for a guest user.
@@ -1127,6 +1109,39 @@ To check the authentication status, use `@auth` or `@guest` blade directives. Fi
     <a href="/logout">Log Out</a>
 @endauth
 ```
+
+### Password hashing
+
+Password hashing is done automatically by the `User` class in the `casts()` method.
+
+```php
+protected function casts(): array
+{
+    return [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+}
+```
+
+The `password` has been marked as `hashed`. This will let *Laravel* know that it should be automatically hashed.
+
+### Logging out the user
+
+> [!IMPORTANT]
+> Always use the **POST** request then logging out a user. That's important from the security point of view.
+
+```php
+<form method="POST" action="/logout">
+    @csrf
+
+    <button>Log Out</button>
+</form>
+```
+
+### Rate limiting
+
+> [Laravel docs](https://laravel.com/docs/rate-limiting#main-content)
 
 ## Notes
 
