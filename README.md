@@ -1404,6 +1404,46 @@ public function __construct(public Job $job)
 > [!TIP]
 > The url produced by `{{ url('/jobs/' . $job->id) }}` will always point to the right location (no matter if it's your local development environment or a production environment).
 
+### Queues
+
+> [Video](https://youtu.be/OhQ_3yaUQRQ?si=a-ePrn7-Tyo7j166)
+> [LAravel docs](https://laravel.com/docs/queues#main-content)
+
+Queues are configured in the `config/queue.php` file.
+
+By default queues in Laravel are using the *database* driver. This means that it will use one of the database tables to list all jobs that are pending in the queue. This list is by default called `jobs`, and the migration for that table comes with Laravel out-of-the-box.
+
+In case or our *send email* action, we must just replace the `send()` method with the `queue()`. 
+
+```php
+Mail::to($job->employer->user)->queue(
+    new JobPosted($job)
+);
+```
+
+> [!IMPORTANT]
+> Queues don't work by them own. They need worker to process tasks.
+
+Queues are handled by *workers* that must be spawned using the `php artisan queue:work`. This command must be executed periodically in order to execute all jos in the queue.
+
+> [!TIP]
+> One of the tools that can take care of spawning workers is [*supervisor*](https://medium.com/@danielarcher/how-to-use-supervisord-for-your-laravel-application-66015f104703).
+
+#### Jobs
+
+To execute more complex tasks on the queue, you can create a Job class `php artisan make:job`. This new class will be created in the `/app/Jobs` folder.
+
+The `handle()` method from the job will be triggered by the queue once the object is handled.
+
+To trigger the job (send it onto the queue) use the `dispatch()` method
+
+```php
+TranslateJob::dispatch();
+```
+
+> [!IMPORTANT]
+> Remember to always restart workers when you made changes in the logic!
+
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user
