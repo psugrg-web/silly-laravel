@@ -9,7 +9,9 @@
         </p>
     </div>
 
-    <div>
-        <x-button href="/jobs/{{ $job->id }}/edit">Edit Job</x-button>
-    </div>
+    @can('edit', $job)
+        <div>
+            <x-button href="/jobs/{{ $job->id }}/edit">Edit Job</x-button>
+        </div>
+    @endcan
     </x-loyout>

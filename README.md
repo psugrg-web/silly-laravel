@@ -426,6 +426,10 @@ public function employer()
 }
 ```
 
+> [!TIP]
+> You can be more specific about the returning type by providing it in the function declaration
+> `public function employer(): BelongsTo`. This means that tou'll return a `BelongsTo` data object.
+
 This method uses the built in `belongsTo()` method that will ask *Eloquent* to perform a new query to search the database for the object referred by the ID stored in the field defined by the migration.
 
 > [!IMPORTANT]
@@ -1142,6 +1146,142 @@ The `password` has been marked as `hashed`. This will let *Laravel* know that it
 ### Rate limiting
 
 > [Laravel docs](https://laravel.com/docs/rate-limiting#main-content)
+
+### Authorization
+
+> [Video](https://youtu.be/M1HMtm6hj5Q?si=Eld_uNM8h5Oh6Imr)
+> [Laravel docs](https://laravel.com/docs/authorization#main-content)
+
+To determine if two models have the same ID and belong to the same table you can use the `$model->is()` method.
+
+```php
+if($job->employer->user->is(Auth::user())) {
+    //
+}
+```
+
+You can also use `$model->isNot()` to check if it's not authorized.
+
+```php
+if ($job->employer->user->isNot(Auth::user())) {
+    abort(403);
+}
+```
+
+#### Gates
+
+> [LAravel docs](https://laravel.com/docs/11.x/authorization#gates)
+
+Gates can automate the above logic.
+
+```php
+ Gate::define('edit-job', function (User $user, Job $job){
+     return $job->employer->user->is($user);
+ });
+
+ Gate::authorize('edit-job', $job);
+```
+
+Instead of calling `Gate::authorize()` you can call `Gate::allows()` or `Gate::denies()` to implement the logic by yourself.
+
+> [!TIP]
+> A good place for defining gates is the `AppServiceProvider.php` file, in the `boot()` method.
+
+#### Can
+
+The laravel User model includes access to the `Can()` and `Cannot()` methods. They can be used with authorization in mind.
+
+```php
+if (Auth::user()->can('edit-job', $job)) {
+    // do sth
+}
+```
+
+```php
+if (Auth::user()->cannot('edit-job', $job)) {
+    // do sth
+}
+```
+
+There are also `@can` and `@cannot` blade directives to disable/enable code depending on the authorization satus.
+
+```html
+@can('edit-job', $job)
+    <div>
+        <x-button href="/jobs/{{ $job->id }}/edit">Edit Job</x-button>
+    </div>
+@endcan
+```
+
+#### Middleware to perform authorization
+
+You can use middleware as a place to perform authorization if you prefer. This will reduce the repetition.
+
+```php
+Route::resource('jobs', JobController::class)->only(['index', 'show']);
+Route::resource('jobs', JobController::class)->except(['index', 'show'])->middleware('auth');
+
+Route::get('/login', [SessionController::class, 'create'])->name('login'); // Laravel named routes
+```
+
+The example above will use middleware for authorization only for the `index` and `show` pages.
+
+Alternatively we can expand the routes
+
+```php
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/create', [JobController::class, 'create']);
+Route::post('/jobs', [JobController::class, 'store'])->middleware('auth');
+Route::get('/jobs/{job}', [JobController::class, 'show']);
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->middleware(['auth', 'can:edit-job,job']);
+Route::patch('/jobs/{job}', [JobController::class, 'update']);
+Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
+```
+
+Alternatively, instead of using two middlewares `auth` and `can:edit-job` we can make it more explicit
+
+```php
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->middleware('auth')->can('edit-job', 'job');
+```
+
+#### Policies
+
+> [Laravel docs](https://laravel.com/docs/authorization#creating-policies)
+
+In laravel policies are connected to the Eloquent model. Create one using `php artisan make:policy`.
+
+Upon creating a policy, you must specify the name of the policy and the model this policy should apply to.
+
+Laravel will create a new policy file in the `/app/Policies` folder. It contains a skeleton of the class you can use as a starting point.
+
+> [!INFO]
+> Notice that it looks like a version of the gate described above.
+
+You can use policies instead of gates.
+
+```php
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])
+    ->middleware('auth')
+    ->can('edit', 'job');
+```
+
+In the code above the policy is called by the `can()` method, and laravel will **automatically** bind the `edit` name to a name of the policy.
+
+Same situation with views:
+
+```html
+@can('edit', $job)
+    <div>
+        <x-button href="/jobs/{{ $job->id }}/edit">Edit Job</x-button>
+    </div>
+@endcan
+```
+
+You can use `@can` blade directive an use the policy instead of gate. Laravel will use the name to get the right policy.
+
+#### Recommendation
+
+For building something small, use *gate facade* in `AppServiceProvider.php`. For anything larger, use *policies*.
 
 ## Notes
 

@@ -2,9 +2,11 @@
     <x-slot:heading>
         Job listing
     </x-slot:heading>
-    <div>
-        <x-button href="/jobs/create">Add New Job Offer</x-button>
-    </div>
+    @auth
+        <div>
+            <x-button href="/jobs/create">Add New Job Offer</x-button>
+        </div>
+    @endauth
     <div>
         <table>
             <tbody>
