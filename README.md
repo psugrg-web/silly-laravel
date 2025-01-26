@@ -1283,6 +1283,127 @@ You can use `@can` blade directive an use the policy instead of gate. Laravel wi
 
 For building something small, use *gate facade* in `AppServiceProvider.php`. For anything larger, use *policies*.
 
+### Sending emails
+
+> [Video](https://youtu.be/1TCUkZR2os8?si=tV3L3K0etarJdomj)
+> [Laravel docs](https://laravel.com/docs/mail)
+
+Laravel supports sending mail by things called *mailables`.
+
+```bash
+php artisan make:mail
+```
+
+> [!TIP]
+> Laravel can automatically create a dedicated view either blade (empty) or a Markdown view.
+
+The mail class contains the logic that can generate data for the mail. View contains the mail structure (it look).
+
+Let's test it by using a temporary, test route
+
+```php
+Route::get('test', function(){
+    return new \App\Mail\JobPosted();
+});
+```
+
+#### Sending email
+
+To send it, change the route to
+
+```php
+Route::get('test', function () {
+    \Illuminate\Support\Facades\Mail::to('kowal@test.com')->send(
+        new \App\Mail\JobPosted()
+    );
+
+    return 'Done';
+});
+```
+
+If the email service is not configured, it'll be logged to the log file `app/storage/logs/laravel.log`.
+
+> [!TIP]
+> Email configuration is located in `config/mail.php`.
+
+Usually the configuration is changed in the `.env` file.
+
+In case where you want to override some default setting in the mailable class, you can do it by redefining variables.
+
+```php
+public function envelope(): Envelope
+{
+    return new Envelope(
+        subject: 'Job Posted',
+        from: 'admin@silly-laravel.com'
+    );
+}
+```
+
+> [!TIP]
+> To test your service you can use service called [*mailtrap*](https://mailtrap.io/). This service has already an integration for Laravel.
+
+#### Sending in real life
+
+Normally you send the email in response to an action. In our case it's the action that creates the new job in the `JobController.php`. At the end of this action, the email should be esnt.
+
+```php
+class JobController extends Controller
+{
+    ...
+
+    public function store()
+    {
+        request()->validate([
+            'title' => ['required', 'min:3'],
+            'salary' => ['required']
+        ]);
+
+        Job::create([
+            'title' => request('title'),
+            'salary' => request('salary'),
+            'employer_id' => 1, // Hardcoded for now
+        ]);
+
+        Mail::to($job->employer->user)->send(
+            new JobPosted($job)
+        );
+
+        return redirect('/jobs');
+    }
+
+    ...
+}
+```
+
+Note that we're passing `$job` variable to the constructor of the *JobPosted* class. That class must be prepared for that, so we should also redefine the constructor.
+
+```php
+public function __construct(public Job $job)
+{
+    //
+}
+```
+
+> [!IMPORTANT]
+> All public variables are always also available in the view.
+
+```html
+<h2>
+    {{ $job->title }}
+</h2>
+
+<p>
+    Congrats! Your job is now live on our website.
+</p>
+<p>
+    <a href="{{ url('/jobs/' . $job->id) }}">View your Job Listing</a>
+</p>
+```
+
+> [!TIP]
+> The url produced by `{{ url('/jobs/' . $job->id) }}` will always point to the right location (no matter if it's your local development environment or a production environment).
+
 ## Notes
 
 - PHP with Apache server requires root as a user therefore it's currently not possible to use it with normal user
