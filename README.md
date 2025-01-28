@@ -14,6 +14,7 @@ The very basic *Laravel* project for learning purposes. It contains the notes wi
 > - Create `.env` file with configuration in the `./app` directory. You can use `.env.example` file as a starting point. Just use `cp .env.example .env`.
 > - Create and export *MySql* root password by calling `export DB_ROOT_PASSWORD=root-password` **use your own password here!**
 > - Export `UID` to expose the user id as an environment variable by calling `export UID=${UID}`[^1].
+> - Export `USER` to expose the user id as an environment variable by calling `export USERNAME=${USER}`.
 
 Run the following command to compile and run the complete suite
 
@@ -27,6 +28,12 @@ docker compose build && docker compose up -d
 ### Initialize the application
 
 Attach to the application container, got to the `app` directory and perform the following steps
+
+Install NPM packages
+
+```sh
+npm install
+```
 
 Install *composer* packages
 
@@ -1443,6 +1450,83 @@ TranslateJob::dispatch();
 
 > [!IMPORTANT]
 > Remember to always restart workers when you made changes in the logic!
+
+### Vite - build tool for frontend
+
+> [Video](https://youtu.be/BNA3tKAJNxk?si=VJ77US7xZ_l9b9yg)
+> [LAravel docs](https://laravel.com/docs/11.x/vite#main-content)
+> [Vite website](https://vite.dev/)
+
+Asset bundling refers to taking all of the assets (images, CSS, java script files, etc.) and move the in such a way that they are ready and **optimized** for production. *Vite* is one of the best such tools right now.
+
+#### Installing Vite
+
+Open the `app/package.json` file which contains dependencies for the frontend tooling (similar as the `composer.json` file contains dependencies for the backend/PHP).
+
+> [!TIP]
+> Laravel already have *Vite* added to that file.
+
+The only thing left to do is to install them via
+
+> [!IMPORTANT]
+> Make sure that the [Node.js](nodejs.org) and Npm installed on your system. (It is installed in this docker).
+
+To install NPM packages, run `npm install` in the `app` directory.
+
+#### Vite Configuration
+
+The *Vite* configuration is stored in the `vite.config.js` file in the `app` folder.
+
+The configuration file holds the `input` array containing the list of files that should be served by the Vite service.
+
+```js
+laravel({
+    input: ['resources/css/app.css', 'resources/js/app.js'],
+    refresh: true,
+}),
+```
+
+To access the file in the Html, use the `@vite` blade directive.
+
+```html
+@vite(['resources/css/app.css'])
+```
+
+#### Running Vite for development
+
+To run the development instance use `npm run dev`.
+
+> [!IMPORTANT]
+> Vite is a service running on the port *5173*.
+
+##### Using Vite with Docker
+
+> [Info](https://laracasts.com/discuss/channels/servers/laravel-vite-on-docker-permissions-and-connection-refusedreset)
+
+Since *Vite* is a service running on the *5173* port, that port must be exposed by the container.
+
+Vite configuration also must be adapted to use the docker network inside the container. Add the following configuration to your `vite.config.json` file.
+
+```js
+server: {
+    hmr: {
+        host: 'localhost',
+        port: 5173,
+    },
+    watch: {
+        usePolling: true,
+    },
+    host: '0.0.0.0',
+    port: 5173,
+},
+```
+
+#### Build for production
+
+To trigger build process, use `npm run build` command. This will build all your assets and prepare them for production.
+
+> [!IMPORTANT]
+> Once compiled, the *Vite* service is not required. Everything is packaged and included statically to the project.
 
 ## Notes
 

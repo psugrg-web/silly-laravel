@@ -10,14 +10,16 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libjpeg-dev \
     libmcrypt-dev \
-    libpng-dev \
     libonig-dev \
+    libpng-dev \
     libreadline-dev \
     libzip-dev \
+    nodejs \
+    npm \
     sudo \
     unzip \
     zip \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*Js
 
 # Apache configuration
 RUN echo "ServerName web-app.local" >> /etc/apache2/apache2.conf

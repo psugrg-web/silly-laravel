@@ -1,3 +1,391 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+:root {
+    /* Configuration variables */
+    /* Top Bar */
+    --top-bar-color: rgb(20, 22, 37);
+    --top-bar-text-color: #f1f7ff;
+
+    /* Content Light Mode */
+    --light-mode-bg-color: #f0f2f7;
+    --light-mode-bg-color-alt: #ffffff;
+    --light-mode-text-color: #17171b;
+    
+    --light-mode-accent-info: #1182ce;
+    --light-mode-accent-safe: #00a028;
+    --light-mode-accent-caution: #dd8c12;
+    --light-mode-accent-danger: #e91010;
+    /* END Configuration variables */
+}
+
+.light-mode {
+    --bg-color: var(--light-mode-bg-color);
+    --bg-color-highlight: hsl(from var(--light-mode-text-color) h s l / 10%);
+    --bg-color-alt: var(--light-mode-bg-color-alt);
+    --text-color: var(--light-mode-text-color);
+    --accent-color-danger: var(--light-mode-accent-danger);
+    --accent-color-caution: var(--light-mode-accent-caution);
+    --accent-color-safe: var(--light-mode-accent-safe);
+    --accent-color-info: var(--light-mode-accent-info);
+}
+
+.dark-mode {
+    --bg-color: var(--light-mode-text-color);
+    --bg-color-highlight: hsl(from var(--light-mode-bg-color) h s l / 10%);
+    --bg-color-alt: var(--light-mode-bg-color-alt);
+    --text-color: var(--light-mode-bg-color);
+    --accent-color-danger: var(--light-mode-accent-danger);
+    --accent-color-caution: var(--light-mode-accent-caution);
+    --accent-color-safe: var(--light-mode-accent-safe);
+    --accent-color-info: var(--light-mode-accent-info);
+}
+
+* {
+    box-sizing: border-box; /* This makes even spacing on the edge of the screen */
+    font-family: "Montserrat", sans-serif;
+}
+
+.danger {
+    color: var(--accent-color-danger);
+}
+.caution {
+    color: var(--accent-color-caution);
+}
+.safe {
+    color: var(--accent-color-safe);
+}
+.info {
+    color: var(--accent-color-info);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+}
+
+header {
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2ch 3ch;
+    background-color: var(--top-bar-color);
+    border-bottom: 1px solid var(--text-color);
+}
+
+header,
+header a,
+header button {
+    font-size: 1rem;
+    color: var(--top-bar-text-color);
+}
+
+a,
+button {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+div {
+    border-radius: 4px;
+    color: var(--text-color);
+    max-width: 80ch;
+    margin: auto;
+    margin-top: 2px;
+    padding: 1ch;
+}
+div.danger{
+    background: hsl(from var(--accent-color-danger) h s l / 10%);
+    color: var(--text-color);
+}
+div.caution{
+    background: hsl(from var(--accent-color-caution) h s l / 10%);
+    color: var(--text-color);
+}
+div.safe{
+    background: hsl(from var(--accent-color-safe) h s l / 10%);
+    color: var(--text-color);
+}
+div.info{
+    background: hsl(from var(--accent-color-info) h s l / 10%);
+    color: var(--text-color);
+}
+
+nav, 
+nav ul {
+    gap: 1rem;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    padding: 0;
+    justify-content: right;
+}
+
+nav li,
+nav p {
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+nav ul a:hover,
+nav ul a.active {
+    text-decoration: underline;
+}
+
+button:not(nav button) {
+    padding-left: 0;
+    padding-right: 0;
+    border-style: none;
+    cursor: pointer;
+    background: none;
+    text-decoration: underline;
+}
+
+nav button,
+nav>a {
+    padding: 0.6ch 1.2ch;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--text-color);
+    border-radius: 2ch;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    background-color: var(--bg-color);
+}
+nav button.danger,
+nav>a.danger{
+    color: var(--text-color);
+}
+nav button.caution,
+nav>a.caution{
+    color: var(--text-color);
+}
+nav button.safe,
+nav>a.safe{
+    color: var(--text-color);
+}
+nav button.info,
+nav>a.info{
+    color: var(--text-color);
+}
+nav button.active,
+nav>a.active{
+    color: var(--bg-color);
+    background: hsl(from var(--text-color) h s l / 70%);
+}
+nav button:hover,
+nav>a:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    transition: all 0.3s ease 0s;
+}
+nav button.danger.active,
+nav>a.danger.active{
+    background: hsl(from var(--accent-color-danger) h s l / 70%);
+    color: var(--text-color);
+}
+nav button.danger:hover,
+nav>a.danger:hover{
+    background-color: var(--accent-color-danger);
+    color: var(--text-color);
+}
+nav button.caution.active,
+nav>a.caution.active{
+    background: hsl(from var(--accent-color-caution) h s l / 70%);
+    color: var(--text-color);
+}
+nav button.caution:hover,
+nav>a.caution:hover{
+    background-color: var(--accent-color-caution);
+    color: var(--text-color);
+}
+nav button.safe.active,
+nav>a.safe.active{
+    background: hsl(from var(--accent-color-safe) h s l / 70%);
+    color: var(--text-color);
+}
+nav button.safe:hover,
+nav>a.safe:hover{
+    background-color: var(--accent-color-safe);
+    color: var(--text-color);
+}
+nav button.info.active,
+nav>a.info.active{
+    background: hsl(from var(--accent-color-info) h s l / 70%);
+    color: var(--text-color);
+}
+nav button.info:hover,
+nav>a.info:hover{
+    background-color: var(--accent-color-info);
+    color: var(--text-color);
+}
+
+header nav button,
+header nav>a {
+    background-color: var(--top-bar-color);
+    border-color: var(--top-bar-text-color);
+}
+header nav button.danger,
+header nav>a.danger {
+    color: var(--top-bar-text-color);
+}
+header nav button.caution,
+header nav>a.caution {
+    color: var(--top-bar-text-color);
+}
+header nav button.safe,
+header nav>a.safe {
+    color: var(--top-bar-text-color);
+}
+header nav button.info,
+header nav>a.info {
+    color: var(--top-bar-text-color);
+}
+header nav button.active,
+header nav>a.active {
+    background: hsl(from var(--top-bar-text-color) h s l / 70%);
+    color: var(--top-bar-color);
+}
+header nav button:hover,
+header nav>a:hover {
+    background-color: var(--top-bar-text-color);
+    color: var(--top-bar-color);
+}
+header nav button.danger.active,
+header nav>a.danger.active,
+header nav button.danger:hover,
+header nav>a.danger:hover,
+header nav button.caution.active,
+header nav>a.caution.active,
+header nav button.caution:hover,
+header nav>a.caution:hover,
+header nav button.safe.active,
+header nav>a.safe.active,
+header nav button.safe:hover,
+header nav>a.safe:hover,
+header nav button.info.active,
+header nav>a.info.active,
+header nav button.info:hover,
+header nav>a.info:hover {
+    color: var(--top-bar-text-color);
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding-top: 0.8vh;
+    padding-bottom: 0.8vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    border-radius: 4px;
+    border: 1px solid var(--text-color);
+    background-color: var(--bg-color-alt);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 3rem;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+td,
+th {
+    border-bottom: 1px solid var(--text-color);
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+}
+
+tr:hover {
+    background-color: var(--bg-color-highlight);
+}
+
+/* Mobile Navigation Bar */
+
+.primary-nav-toggle {
+    display: none;
+}
+
+hr {
+    background: var(--text-color);
+    height: 1px;
+    border-width: 0;
+}
+
+@media only screen and (max-width: 80ch) {
+    header {
+        height: 5.5rem;
+        box-shadow: none;
+        border: none;
+    }
+
+    header > img {
+        display: none;
+    }
+
+    .primary-nav-scroll-disable {
+        overflow: hidden;
+    }
+
+    .primary-nav span {
+        padding-top: 1rem;
+        width: 60vw;
+        border-top: 1px solid var(--top-bar-text-color);
+        text-align: center;
+    }
+
+    .primary-nav{
+        padding-top: 5.5rem;
+        inset: 0 0 0 0;
+        background: var(--top-bar-color);
+        z-index: 1000;
+        transform: translateY(-100%);
+    }
+
+    .primary-nav[data-visible="true"] {
+        position: fixed;
+        transform: translateY(0%);
+    }
+
+    .primary-nav, 
+    .primary-nav ul {
+        flex-direction: column;
+    }
+
+    .primary-nav-toggle {
+        display: block;
+        position: absolute;
+        z-index: 9999;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0%20-960%20960%20960' width='24px' fill='%23edf0f1'><path d='M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z'/></svg>");
+        width: 1.5rem;
+        aspect-ratio: 1;
+        top: 2rem;
+        right: 2rem;
+    }
+}

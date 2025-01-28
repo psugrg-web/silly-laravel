@@ -7,10 +7,10 @@
     <title>Example navigation and header</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    @vite(['resources/css/app.css', 'resources/js/nav.js'])
+
     <link rel="icon" type="svg" href="{{ asset('list-black.svg') }}">
-    <script src="{{ asset('js/nav.js') }}" defer></script>
 </head>
 
 <body class="light-mode">
