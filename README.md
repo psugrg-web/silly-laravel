@@ -53,6 +53,12 @@ Migrate database (initialize)
 php artisan migrate
 ```
 
+Build your FE assets using VITE
+
+```sh
+npm run build
+```
+
 > [!TIP]
 > Navigate to [localhost:8080](localhost:8080) in your browser to access the application, and [localhost:8081](localhost:8081) to access *phpMyAdmin*.
 
