@@ -82,7 +82,7 @@ Starter kits are intended to be used at the start of a new project. They will pr
 
 From *Laravel* documentation:
 
-> Laravel Breeze is a minimal, simple implementation of all of Laravel's authentication features, including login, registration, password reset, email verification, and password confirmation. In addition, Breeze includes a simple "profile" page where the user may update their name, email address, and password.
+> Laravel **Breeze** is a minimal, simple implementation of all of Laravel's authentication features, including login, registration, password reset, email verification, and password confirmation. In addition, Breeze includes a simple "profile" page where the user may update their name, email address, and password.
 
 This could could probably be a good starting point for creating new applications (at least at the beginning).
 
@@ -1492,11 +1492,35 @@ laravel({
 }),
 ```
 
+The following configuration can be used to store CSS, JS and other objects like images etc. However, you must explicitly list all assets one by one in the `input` array.
+
+Alternatively, you may want to list all assets that should be available by adding it to the `app.js` file. You can use it for images.
+
+```js
+import.meta.glob([
+    '../images/**'
+]);
+```
+
+> [!NOTE]
+> Images can also be stored directly in the `public` folder. and accessed via `<link rel="icon" type="svg" href="{{ asset('list-black.svg') }}">` in the Html file. This will not use cache busting and versioning.
+
+#### Using vite assets in html
+
 To access the file in the Html, use the `@vite` blade directive.
+
+Css access
 
 ```html
 @vite(['resources/css/app.css'])
 ```
+
+Images
+
+```html
+<img src="{{ Vite::asset('resources/images/list-white.svg') }}" alt="logo">
+```
+
 
 #### Running Vite for development
 
